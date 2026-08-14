@@ -1,0 +1,104 @@
+/* 流程图可展开块 */
+.flow-section {
+  margin: 0 0 20px;
+  padding: 18px 18px 8px;
+  background: #fff;
+  border: 1px solid var(--nav-line);
+  border-radius: 12px;
+}
+
+.flow-section > h2 {
+  margin: 0 0 6px;
+  font-size: 17px;
+}
+
+.flow-section > .flow-lead {
+  margin: 0 0 14px;
+  font-size: 13px;
+  color: var(--nav-muted);
+  line-height: 1.55;
+}
+
+.flow-details {
+  border: 1px solid var(--nav-line);
+  border-radius: 10px;
+  margin-bottom: 12px;
+  background: #f8fafc;
+  overflow: hidden;
+}
+
+.flow-details[open] {
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.flow-details summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 12px 14px;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+}
+
+.flow-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.flow-details summary::before {
+  content: "▸";
+  color: var(--nav-accent);
+  font-size: 12px;
+  width: 14px;
+  flex-shrink: 0;
+  transition: transform 160ms ease;
+}
+
+.flow-details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.flow-details summary .flow-tag {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--nav-accent);
+  background: var(--nav-accent-soft);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.flow-details .flow-body {
+  padding: 0 14px 14px;
+  border-top: 1px dashed var(--nav-line);
+}
+
+.flow-details .flow-note {
+  margin: 10px 0 8px;
+  font-size: 12px;
+  color: var(--nav-muted);
+  line-height: 1.55;
+}
+
+.flow-details .mermaid {
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 12px 8px;
+  overflow-x: auto;
+  font-size: 13px;
+}
+
+.flow-details .flow-legend {
+  margin: 10px 0 0;
+  padding-left: 18px;
+  font-size: 12px;
+  color: var(--nav-muted);
+  line-height: 1.55;
+}
+
+.nav-hero__links a[href="#flows"] {
+  background: rgba(255, 255, 255, 0.28);
+}

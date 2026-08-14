@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>6Q 测评原型 · 版本功能清单</title>
+    <link rel="stylesheet" href="css/nav.css" />
+    <link rel="stylesheet" href="css/nav-flow.css" />
+  </head>
+  <body>
+    <div class="nav-page">
+      <header class="nav-hero">
+        <p class="nav-hero__eye">6Q MENTAL TEST · FEATURE BY VERSION</p>
+        <h1>6Q 测评 · 版本功能清单</h1>
+        <p>
+          当前演示重点 <strong>v1.0.4</strong>：人生旅程改为「语音/文字描述 → 四元素校验 → 成图」；构图画板纯白底描边无填充。
+          本期仅维护 <strong>C 端 App</strong>。
+        </p>
+        <div class="nav-hero__links">
+          <a href="#flows">流程图</a>
+          <a href="#v104">v1.0.4 当前</a>
+          <a href="#v103">v1.0.3</a>
+          <a href="#v102">v1.0.2</a>
+          <a href="#v101">v1.0.1</a>
+          <a href="#v100">v1.0.0</a>
+          <a href="#v010">v0.1.0 基线</a>
+          <a href="app-home.html">打开 C 端 App →</a>
+          <a href="docs/FEATURES.md">FEATURES.md</a>
+        </div>
+      </header>
+
+      <nav class="ver-jump" aria-label="版本跳转">
+        <a href="#flows">流程图</a>
+        <a class="is-current" href="#v104">v1.0.4</a>
+        <a href="#v103">v1.0.3</a>
+        <a href="#v102">v1.0.2</a>
+        <a href="#v101">v1.0.1</a>
+        <a href="#v100">v1.0.0</a>
+        <a href="#v010">v0.1.0</a>
+      </nav>
+
+      <!-- ========== 流程图（点击展开） ========== -->
+      <section class="flow-section" id="flows">
+        <h2>心画测评 · 详细流程图</h2>
+        <p class="flow-lead">
+          覆盖「如何输入/画板 → 如何模型生成/理解 → 如何解读」。点击下方条目展开；图表在首次展开时渲染（Mermaid）。
+          构图与旅程共用 payload 壳；旅程 v1.0.4 起改为描述校验成图，构图仍为 □○ 摆放。
+        </p>
+
+        <details class="flow-details js-flow">
+          <summary>
+            总览：两套心画同构链路
+            <span class="flow-tag">结构壳</span>
+          </summary>
+          <div class="flow-body">
+            <p class="flow-note">
+              统一节点：引导 → 输入/画板 → compose（理解/生成）→ 结果解读。
+              构图 <code>imageUrl=null</code>、<code>extras=[]</code>；旅程有成图，描述锁定后可重生最多 3 张。
+            </p>
+            <pre class="mermaid">
+flowchart TB
+  subgraph Entry["入口"]
+    Home["App 首页心画入口"]
+    Comp["关系空间构图<br/>assessmentType=composition"]
+    Jour["人生旅程<br/>assessmentType=journey"]
+  end
+
+  Home --> Comp
+  Home --> Jour
+
+  subgraph Shared["统一流程节点"]
+    Guide["① 漫画/指导语引导<br/>不可跳过 · CTA 开始心画"]
+    Board["② 输入或画板<br/>构图 figures[] / 旅程描述"]
+    Compose["③ compose 节点<br/>假等待 · mock 模型"]
+    Result["④ 结果解读页<br/>patternId + 文案模板"]
+  end
+
+  Comp --> Guide
+  Jour --> Guide
+  Guide --> Board
+  Board --> Compose
+  Compose --> Result
+
+  subgraph Payload["统一 payload 壳"]
+    P["assessmentType / audience<br/>figures / extras<br/>compose.status|imageUrl|description|patternId"]
+  end
+
+  Compose -.-> P
+  Result -.-> P
+            </pre>
+            <ul class="flow-legend">
+              <li>配置同构：后台可按 <code>assessmentType</code> 挂不同模式库，页面节点名称一致。</li>
+              <li>原型阶段 compose / 解读均为 mock，正式环境替换接口即可。</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="flow-details js-flow">
+          <summary>
+            构图：画板 → 模型理解 → 解读（v1.0.4）
+            <span class="flow-tag">详细</span>
+          </summary>
+          <div class="flow-body">
+            <p class="flow-note">白底描边 □○；无填充、无颜色调节；理解等待后默认模式，演示条可切 12 模。</p>
+            <pre class="mermaid">
+flowchart TD
+  A0["填写年龄可选"] --> A1{"年龄 &lt; 18？"}
+  A1 -->|是| A2["儿童漫画文案 4 格"]
+  A1 -->|否/未填| A3["成人漫画文案 4 格"]
+  A2 --> A4["末页 CTA：开始心画"]
+  A3 --> A4
+
+  A4 --> B1["客厅关系地图板"]
+  B1 --> B2["点选添加工具"]
+  B2 --> B3["＋男性 □ / ＋女性 ○"]
+  B3 --> B4["白底描边 · 拖转位置 · 调大小 · 可选＞＜"]
+  B4 --> B5{"figures.length ≥ 1？"}
+  B5 -->|否| B3
+  B5 -->|是| B6["完成并理解构图"]
+
+  B6 --> C1["弹层：正在理解构图…"]
+  C1 --> C2["mock 轮播提示<br/>识别位置 / 远近朝向 / 匹配线索"]
+  C2 --> C3["XinhuaAIMock.composeBoard"]
+  C3 --> C4["返回 description + patternId=p01<br/>imageUrl = null"]
+  C4 --> C5["写入 xinhuaPayload<br/>extras=[]"]
+
+  C5 --> D1["结果页：白底回放描边"]
+  D1 --> D2["展示 compose.description"]
+  D2 --> D3["按 patternId 默认渲染<br/>均衡连接型"]
+  D3 --> D4["演示条切换 12 模<br/>后台配置 mock"]
+  D4 --> D5["课程 / 一对一咨询"]
+  D5 --> D6["导师主页 → 预约详情 → 可约时间"]
+
+  style C4 fill:#fff1eb,stroke:#ff7a45
+  style C3 fill:#f1f5f9,stroke:#94a3b8
+            </pre>
+            <ul class="flow-legend">
+              <li><strong>画板</strong>：纯白底；□○ 仅描边无填充；去颜色调节。</li>
+              <li><strong>模型</strong>：保留 compose 等待节点；不展示生成图。</li>
+              <li><strong>解读</strong>：默认 p01，可切换；回放与画板视觉一致。</li>
+              <li><strong>咨询</strong>：一对一 → 导师主页 → 预约详情 → 可约时间（mock）。</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="flow-details js-flow">
+          <summary>
+            旅程：描述 → 校验 → 成图 → 解读（v1.0.4）
+            <span class="flow-tag">详细</span>
+          </summary>
+          <div class="flow-body">
+            <p class="flow-note">删除图标拖拽；语音/文字须含四元素；确认描述后成图；最多 3 张（1+2 重生）；结果页不变。</p>
+            <pre class="mermaid">
+flowchart TD
+  G1["漫画引导 4 格不可跳过"] --> G2["末页 CTA：开始心画"]
+  G2 --> H1["语音或文字描述旅程"]
+
+  H1 --> H2["校验四元素<br/>猴 / 鸟 / 包 / 蛇"]
+  H2 --> H3{"四元素齐全？"}
+  H3 -->|否| H4["提示缺少 xx<br/>重说或改文"]
+  H4 --> H1
+  H3 -->|是| H5["用户确认描述"]
+  H5 --> H6["假等待 · 生成完整旅程图"]
+
+  H6 --> I1["JourneyAIMock<br/>固定演示成图"]
+  I1 --> I2["成图贴在画板上"]
+  I2 --> I3{"用户确认成图？"}
+  I3 -->|否且剩余次数&gt;0| I4["描述锁定 · 重新生成"]
+  I4 --> H6
+  I3 -->|是| I5["查看解读"]
+  I3 -->|次数用尽| I5
+
+  I5 --> J1["结果页：营地轻换皮"]
+  J1 --> J2["展示成图与描述"]
+  J2 --> J3["固定解读 j04"]
+  J3 --> J4["一对一 → 导师主页/预约"]
+
+  style I1 fill:#fff1eb,stroke:#ff7a45
+            </pre>
+            <ul class="flow-legend">
+              <li><strong>输入</strong>：按住说话 mock + 可打字；关键词/别称校验。</li>
+              <li><strong>成图</strong>：整图贴板（非四贴纸）；演示可同图；最多 3 张。</li>
+              <li><strong>解读</strong>：结果页不改；与描述/成图解耦的固定模板。</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="flow-details js-flow">
+          <summary>
+            compose 节点对照：构图 vs 旅程
+            <span class="flow-tag">差异</span>
+          </summary>
+          <div class="flow-body">
+            <p class="flow-note">同一节点名称，不同输入与产出——方便后台同一套编排。</p>
+            <pre class="mermaid">
+flowchart LR
+  subgraph In["输入"]
+    F["构图: figures 摆放"]
+    D["旅程: 锁定描述文本"]
+  end
+
+  subgraph Node["compose 节点 mock"]
+    W["等待动画 2~3s"]
+    M["模型理解 / 成图"]
+  end
+
+  subgraph OutC["构图产出"]
+    C1["imageUrl = null"]
+    C2["description 文本"]
+    C3["patternId 默认 p01"]
+  end
+
+  subgraph OutJ["旅程产出"]
+    J1["imageUrl = 演示成图"]
+    J2["description = 用户描述"]
+    J3["patternId 默认 j04"]
+  end
+
+  F --> W
+  D --> W
+  W --> M
+  M --> C1
+  M --> C2
+  M --> C3
+  M --> J1
+  M --> J2
+  M --> J3
+            </pre>
+          </div>
+        </details>
+      </section>
+
+      <article class="ver-card" id="v104">
+        <div class="ver-card__head">
+          <div>
+            <h2><span class="ver-badge">v1.0.4</span> 当前演示</h2>
+            <p class="ver-card__meta">2026-08-13 · 旅程描述成图 + 构图白底描边</p>
+          </div>
+          <p class="ver-card__theme">旅程：语音/文字 → 四元素校验 → 确认 → 成图（最多3张）；构图：白底 □○ 描边无填充</p>
+        </div>
+        <div class="ver-mod">
+          <div class="ver-mod__head">
+            <h3>模块 · 心画·人生旅程（描述成图）</h3>
+            <a href="journey-guide.html">打开演示 →</a>
+          </div>
+          <ul>
+            <li><strong>引导</strong>：漫画同步为语音/文字讲清四元素 → 确认 → 成图</li>
+            <li><strong>输入</strong>：按住说话 mock + 可打字；须含猴/鸟/包/蛇（关键词+别称）</li>
+            <li><strong>成图</strong>：确认描述后生成完整旅程图贴板；可重生 2 次（共 3 张）；描述锁定</li>
+            <li><strong>结果</strong>：不改；营地解读 + 咨询跳转</li>
+          </ul>
+        </div>
+        <div class="ver-mod">
+          <div class="ver-mod__head">
+            <h3>模块 · 心画·关系空间构图（白底描边）</h3>
+            <a href="xinhua-age.html">打开演示 →</a>
+          </div>
+          <ul>
+            <li><strong>画板 / 回放</strong>：纯白底；□○ 仅描边无填充；去掉颜色调节</li>
+            <li><strong>其余</strong>：沿用 v1.0.3 客厅壳、假等待理解、统一 payload、12 模演示条</li>
+            <li><strong>流程图</strong>：见上方 <a href="#flows">心画测评 · 详细流程图</a></li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="ver-card" id="v103">
+        <div class="ver-card__head">
+          <div>
+            <h2><span class="ver-badge ver-badge--base">v1.0.3</span></h2>
+            <p class="ver-card__meta">2026-08-11 · 心画·关系空间构图沉浸改版</p>
+          </div>
+          <p class="ver-card__theme">年龄 → 漫画引导 → 客厅关系地图板 □○ → 假等待理解（不出图）→ 默认模式+12模可切</p>
+        </div>
+        <div class="ver-mod">
+          <div class="ver-mod__head">
+            <h3>模块 · 心画·关系空间构图（沉浸）</h3>
+            <a href="xinhua-age.html">打开当前链路 →</a>
+          </div>
+          <ul>
+            <li>客厅场景关系地图板；假等待理解；统一 payload；结果 12 模</li>
+            <li>画板视觉已由 v1.0.4 迭代为白底描边</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="ver-card" id="v102">
+        <div class="ver-card__head">
+          <div>
+            <h2><span class="ver-badge ver-badge--base">v1.0.2</span></h2>
+            <p class="ver-card__meta">2026-08-10 · 心画·人生旅程沉浸改版</p>
+          </div>
+          <p class="ver-card__theme">漫画翻页 → 草坪画板 → 语音 mock → 串联成图 → 营地解读</p>
+        </div>
+        <div class="ver-mod">
+          <div class="ver-mod__head">
+            <h3>模块 · 心画·人生旅程（沉浸）</h3>
+            <a href="journey-guide.html">打开当前链路 →</a>
+          </div>
+          <ul>
+            <li>四象征拖拽 + 语音附加已被 v1.0.4 描述成图流程取代</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="ver-card" id="v101">
+        <div class="ver-card__head">
+          <div>
+            <h2><span class="ver-badge ver-badge--base">v1.0.1</span></h2>
+            <p class="ver-card__meta">2026-08-06 · 心画·人生旅程（初版）</p>
+          </div>
+          <p class="ver-card__theme">象征摆放 → NL → mock 描述 → 20 模</p>
+        </div>
+        <div class="ver-mod">
+          <div class="ver-mod__head">
+            <h3>模块 · 人生旅程（初版）</h3>
+            <a href="journey-guide.html">打开当前链路 →</a>
+          </div>
+          <ul>
+            <li>已由 v1.0.2 沉浸改版迭代</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="ver-card" id="v100">
+        <div class="ver-card__head">
+          <div>
+            <h2><span class="ver-badge ver-badge--base">v1.0.0</span></h2>
+            <p class="ver-card__meta">2026-08-06 · 心画·关系空间构图（初版）</p>
+          </div>
+          <p class="ver-card__theme">版本导航 + □○家庭构图 + 12 模</p>
+        </div>
+        <div class="ver-mod">
+          <div class="ver-mod__head">
+            <h3>模块 · 关系空间构图（初版）</h3>
+            <a href="xinhua-age.html">打开当前链路 →</a>
+          </div>
+          <ul>
+            <li>已由 v1.0.3 沉浸改版迭代；导航工程说明仍属本版起源</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="ver-card" id="v010">
+        <div class="ver-card__head">
+          <div>
+            <h2><span class="ver-badge ver-badge--base">v0.1.0</span> 基线复刻</h2>
+            <p class="ver-card__meta">2026-08-05 · AQ 选项测评主路径</p>
+          </div>
+          <p class="ver-card__theme">一比一复刻首页 / AQ 年龄 / 三题 / 结果演示</p>
+        </div>
+        <div class="ver-mod">
+          <div class="ver-mod__head">
+            <h3>模块 · AQ 测评</h3>
+            <a href="aq-age.html">打开 AQ →</a>
+          </div>
+          <ul>
+            <li>测评首页视觉 + AQ 入口（见 <a href="app-home.html">app-home</a>）</li>
+            <li>年龄可选 · 3 题状态机 · 固定用时 · 退出弹窗 · 结果固定 220</li>
+          </ul>
+        </div>
+      </article>
+
+      <p class="nav-foot">
+        清单源文件：<code>docs/FEATURES.md</code> · 流程图：本页 <a href="#flows">#flows</a> · 原型目录：<code>6q_mental_test/</code>
+      </p>
+    </div>
+
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: "neutral",
+        securityLevel: "loose",
+        flowchart: { curve: "basis", htmlLabels: true },
+      });
+
+      async function renderFlow(details) {
+        if (details.dataset.rendered === "1") return;
+        const nodes = details.querySelectorAll("pre.mermaid");
+        if (!nodes.length) return;
+        await mermaid.run({ nodes: [...nodes] });
+        details.dataset.rendered = "1";
+      }
+
+      document.querySelectorAll("details.js-flow").forEach((el) => {
+        el.addEventListener("toggle", () => {
+          if (el.open) renderFlow(el);
+        });
+      });
+
+      // 若带 #flows 或某个已 open 的 details，预渲染
+      if (location.hash === "#flows") {
+        const first = document.querySelector("details.js-flow");
+        if (first) {
+          first.open = true;
+          renderFlow(first);
+        }
+      }
+    </script>
+  </body>
+</html>

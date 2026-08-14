@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>关系空间构图｜漫画引导</title>
+    <link rel="stylesheet" href="css/tokens.css" />
+    <link rel="stylesheet" href="css/ios-device.css" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="stylesheet" href="css/xinhua.css" />
+    <link rel="stylesheet" href="css/journey.css" />
+  </head>
+  <body class="app-body">
+    <div class="ios-device">
+      <div class="ios-device__shell">
+        <div class="ios-device__screen">
+          <div class="ios-status-bar">
+            <span class="ios-status-bar__time">9:41</span>
+            <span class="ios-status-bar__island"></span>
+            <span class="ios-status-bar__icons" aria-hidden="true">···</span>
+          </div>
+          <div class="phone-frame">
+            <main class="app-scroll jh-comic-page xh-comic-page">
+              <nav class="xh-nav jh-comic-nav">
+                <a href="xinhua-age.html" aria-label="返回">‹</a>
+                <h1>关系空间构图</h1>
+                <span class="jh-comic-progress" id="xh-comic-progress">1 / 4</span>
+              </nav>
+              <p class="jh-lead jh-lead--light" id="xh-audience" style="margin-bottom:4px"></p>
+              <div class="jh-comic-stage" id="xh-comic-stage" aria-live="polite"></div>
+              <div class="jh-comic-footer">
+                <button type="button" class="xh-btn xh-btn--ghost" id="xh-comic-prev" disabled>上一页</button>
+                <button type="button" class="xh-btn" id="xh-comic-next">下一页</button>
+                <a class="xh-btn jh-comic-cta" id="xh-comic-start" href="xinhua-canvas.html" hidden>开始心画</a>
+              </div>
+            </main>
+            <div class="ios-home-indicator"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/device.js"></script>
+    <script src="js/xinhua-payload.js"></script>
+    <script src="js/xinhua-comic-copy.js"></script>
+    <script src="js/xinhua-guide.js"></script>
+  </body>
+</html>

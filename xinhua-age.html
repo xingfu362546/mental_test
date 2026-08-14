@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>关系空间构图｜填写年龄</title>
+    <link rel="stylesheet" href="css/tokens.css" />
+    <link rel="stylesheet" href="css/ios-device.css" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="stylesheet" href="css/xinhua.css" />
+  </head>
+  <body class="app-body">
+    <div class="ios-device">
+      <div class="ios-device__shell">
+        <i class="ios-device__btn ios-device__btn--silent"></i>
+        <i class="ios-device__btn ios-device__btn--vol-up"></i>
+        <i class="ios-device__btn ios-device__btn--vol-down"></i>
+        <i class="ios-device__btn ios-device__btn--power"></i>
+        <div class="ios-device__screen">
+          <div class="ios-status-bar">
+            <span class="ios-status-bar__time">9:41</span>
+            <span class="ios-status-bar__island"></span>
+            <span class="ios-status-bar__icons" aria-hidden="true">···</span>
+          </div>
+          <div class="phone-frame">
+            <main class="app-scroll xh-page">
+              <nav class="xh-nav">
+                <a href="app-home.html" aria-label="返回">‹</a>
+                <h1>关系空间构图</h1>
+              </nav>
+              <section class="xh-card">
+                <h2>为了更好匹配指导语</h2>
+                <p>请填写年龄（可不填）。未填写时将按成人版指导语进入。</p>
+                <div class="xh-field">
+                  <label for="xh-age">年龄</label>
+                  <input id="xh-age" type="number" min="1" max="120" placeholder="请输入您的年龄（选填）" />
+                </div>
+                <p class="xh-hint">＜18 岁：儿童/青少年指导语 · ≥18 或未填：成人指导语</p>
+              </section>
+              <div class="xh-footer">
+                <button class="xh-btn" id="xh-next" type="button">下一步</button>
+              </div>
+            </main>
+            <div class="ios-home-indicator"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/device.js"></script>
+    <script>
+      document.getElementById("xh-next").addEventListener("click", function () {
+        var v = document.getElementById("xh-age").value.trim();
+        try {
+          if (v) sessionStorage.setItem("xinhuaAge", v);
+          else sessionStorage.removeItem("xinhuaAge");
+        } catch (e) {}
+        location.href = "xinhua-guide.html";
+      });
+    </script>
+  </body>
+</html>

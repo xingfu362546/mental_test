@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>关系空间构图｜解读</title>
+    <link rel="stylesheet" href="css/tokens.css" />
+    <link rel="stylesheet" href="css/ios-device.css" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="stylesheet" href="css/xinhua.css" />
+  </head>
+  <body class="app-body">
+    <div class="ios-device">
+      <div class="ios-device__shell">
+        <i class="ios-device__btn ios-device__btn--silent"></i>
+        <i class="ios-device__btn ios-device__btn--vol-up"></i>
+        <i class="ios-device__btn ios-device__btn--vol-down"></i>
+        <i class="ios-device__btn ios-device__btn--power"></i>
+        <div class="ios-device__screen">
+          <div class="ios-status-bar">
+            <span class="ios-status-bar__time">9:41</span>
+            <span class="ios-status-bar__island"></span>
+            <span class="ios-status-bar__icons" aria-hidden="true">···</span>
+          </div>
+          <div class="phone-frame">
+            <main class="app-scroll xh-result-page--home">
+              <nav class="xh-nav">
+                <a href="app-home.html" aria-label="回首页">‹</a>
+                <h1>构图解读</h1>
+              </nav>
+
+              <div
+                class="xh-result-hero"
+                style="background-image:url('assets/xinhua/xinhua-scene-living-board.png')"
+              >
+                <div class="xh-result-hero__copy">
+                  <strong>客厅地图 · 关系解读</strong>
+                  <span>已完成「理解构图」（不出图）。以下为探索性反馈，可切换演示模式。</span>
+                </div>
+              </div>
+
+              <p class="xh-compose-desc" id="xh-compose-desc"></p>
+
+              <!-- 原型演示条：切换后台配置的解读模板，不改动画板 -->
+              <div class="xh-demo-bar">
+                <strong>原型演示 · 解读结果切换</strong>
+                <select id="xh-pattern-select" aria-label="切换解读模式"></select>
+                <p class="note">
+                  默认进入后台配置的某一模式；演示条仍可切换。数据来源自<strong>后台配置</strong>（mock）。
+                </p>
+              </div>
+
+              <p class="xh-child-note" id="xh-child-note" hidden>
+                给家长 / 陪伴者的参考：以下为基础探索性反馈，非心理诊断；请结合孩子真实感受温和讨论。
+              </p>
+
+              <section class="xh-result-block xh-board-preview-block">
+                <p class="xh-pattern-headline" id="xh-pattern-name">—</p>
+                <p class="xh-hint" style="margin-top:0;margin-bottom:10px">
+                  你提交的关系地图（只读）：□男性 · ○女性
+                </p>
+                <div class="xh-board xh-board--preview" id="xh-board-preview" aria-label="提交的画板预览"></div>
+                <p class="xh-hint" id="xh-board-preview-empty" hidden>未找到画板数据。</p>
+              </section>
+
+              <section class="xh-result-block">
+                <h3>事实观察</h3>
+                <p id="xh-observe"></p>
+                <h3>双向假设</h3>
+                <p id="xh-hypo"></p>
+                <h3>探索提问</h3>
+                <p id="xh-question"></p>
+                <h3>最小行动</h3>
+                <p id="xh-action"></p>
+                <p class="xh-hint">
+                  以上内容为初步反馈，仅作家庭关系探索参考，不代表心理诊断或固定结论。如需结合真实情境进一步理解，可预约一对一澄清。
+                </p>
+              </section>
+
+              <section class="xh-result-block">
+                <h3>精选课程</h3>
+                <a class="xh-course-item js-stub" href="#">
+                  <span class="xh-course-thumb" style="background:linear-gradient(135deg,#ffb089,#ff7a45)"></span>
+                  <span>
+                    <b>家庭边界与连接练习</b>
+                    <small>7 天建立更安全的互动节奏</small>
+                    <em>¥258.0</em>
+                  </span>
+                </a>
+                <a class="xh-course-item js-stub" href="#">
+                  <span class="xh-course-thumb" style="background:linear-gradient(135deg,#9ed4c4,#5b8def)"></span>
+                  <span>
+                    <b>亲子沟通：听见感受</b>
+                    <small>用提问代替指责</small>
+                    <em>¥198.0</em>
+                  </span>
+                </a>
+                <a class="xh-course-item js-stub" href="#">
+                  <span class="xh-course-thumb" style="background:linear-gradient(135deg,#cba5dd,#e85a8c)"></span>
+                  <span>
+                    <b>夫妻同盟与养育分工</b>
+                    <small>减少三角化与传话</small>
+                    <em>¥328.0</em>
+                  </span>
+                </a>
+              </section>
+
+              <section class="xh-result-block">
+                <h3>想要更深入的解读？</h3>
+                <a class="xh-cta" href="counseling-profile.html?from=xinhua">
+                  <strong>预约一对一心理解读 →</strong>
+                  <span>跳转心理咨询导师主页（原型演示）。结合你的构图与真实家庭情境预约澄清。</span>
+                </a>
+              </section>
+
+              <div class="xh-footer">
+                <a class="xh-btn xh-btn--ghost" href="app-home.html">回测评首页</a>
+              </div>
+            </main>
+            <div class="ios-home-indicator"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/device.js"></script>
+    <script src="js/xinhua-payload.js"></script>
+    <script src="js/xinhua-patterns.js"></script>
+    <script src="js/xinhua-result.js"></script>
+  </body>
+</html>

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>关系空间构图｜关系地图板</title>
+    <link rel="stylesheet" href="css/tokens.css" />
+    <link rel="stylesheet" href="css/ios-device.css" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="stylesheet" href="css/xinhua.css" />
+    <link rel="stylesheet" href="css/journey.css" />
+  </head>
+  <body class="app-body">
+    <div class="ios-device">
+      <div class="ios-device__shell">
+        <div class="ios-device__screen">
+          <div class="ios-status-bar">
+            <span class="ios-status-bar__time">9:41</span>
+            <span class="ios-status-bar__island"></span>
+            <span class="ios-status-bar__icons" aria-hidden="true">···</span>
+          </div>
+          <div class="phone-frame">
+            <div class="xh-living-page" style="display:flex;flex-direction:column;height:100%;min-height:0">
+              <nav class="xh-nav">
+                <a href="xinhua-guide.html" aria-label="返回">‹</a>
+                <h1>关系地图板</h1>
+              </nav>
+              <p class="jh-lead jh-lead--light">在客厅场景里拖转 □男性 / ○女性。仅关系图标，不生成配图。</p>
+              <div class="xh-toolbar xh-toolbar--living">
+                <button type="button" class="xh-tool xh-tool--male" id="xh-add-male">＋ 男性 □</button>
+                <button type="button" class="xh-tool xh-tool--female" id="xh-add-female">＋ 女性 ○</button>
+              </div>
+              <div class="xh-living" aria-label="客厅场景">
+                <div
+                  class="xh-living__art"
+                  style="background-image:url('assets/xinhua/xinhua-scene-living-board.png')"
+                ></div>
+                <div class="xh-board xh-board--living" id="xh-board" aria-label="构图画板"></div>
+                <p class="xh-living__hint">关系地图在客厅地板上 · 拖动调整位置</p>
+              </div>
+              <div class="xh-inspector" id="xh-inspector">
+                <div class="row"><span>大小</span><input id="xh-size" type="range" min="36" max="96" value="56" /></div>
+                <div class="row">
+                  <span>符号</span>
+                  <div class="xh-symbol-group">
+                    <button type="button" data-symbol="">空</button>
+                    <button type="button" data-symbol="＞">＞</button>
+                    <button type="button" data-symbol="＜">＜</button>
+                  </div>
+                </div>
+                <div class="row"><button type="button" class="xh-btn xh-btn--ghost" id="xh-delete" style="min-height:40px">删除此图形</button></div>
+              </div>
+              <div class="xh-footer" style="padding-bottom:12px">
+                <button class="xh-btn" id="xh-submit" type="button" disabled>完成并理解构图</button>
+              </div>
+            </div>
+            <div class="ios-home-indicator"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="jh-modal" id="xh-compose-modal" hidden>
+        <div class="jh-modal__card xh-compose-card">
+          <div class="jh-compose__spinner" aria-hidden="true"></div>
+          <h3>正在理解构图…</h3>
+          <p class="hint" id="xh-compose-tip">正在整理成员位置与关系线索</p>
+          <p class="hint" style="margin-top:8px">本测评不生成完整配图（与旅程共用流程节点）。</p>
+        </div>
+      </div>
+    </div>
+    <script src="js/device.js"></script>
+    <script src="js/xinhua-payload.js"></script>
+    <script src="js/xinhua-ai-mock.js"></script>
+    <script src="js/xinhua-canvas.js"></script>
+  </body>
+</html>

@@ -1,0 +1,558 @@
+/* 心理咨询预约演示（对齐截图风格） */
+
+.cs-page {
+  background: #f5f5f5;
+  min-height: 100%;
+  padding-bottom: 88px;
+}
+
+.cs-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px var(--space-page) 4px;
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.cs-nav a {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: 26px;
+  line-height: 1;
+}
+
+.cs-nav h1 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  flex: 1;
+  text-align: center;
+  padding-right: 36px;
+}
+
+.cs-hero {
+  position: relative;
+  height: 168px;
+  background:
+    linear-gradient(160deg, #f0e6dc 0%, #e8d5c4 45%, #d9c2ae 100%);
+}
+
+.cs-hero__actions {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cs-icon-btn {
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.72);
+  color: #666;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.cs-sheet {
+  margin-top: -28px;
+  position: relative;
+  z-index: 1;
+  background: #fff;
+  border-radius: 18px 18px 0 0;
+  padding: 0 16px 20px;
+}
+
+.cs-badge-row {
+  display: flex;
+  align-items: stretch;
+  margin: 0 -16px 14px;
+  overflow: hidden;
+  border-radius: 18px 18px 0 0;
+}
+
+.cs-badge-row__left {
+  background: linear-gradient(90deg, #ff9a5a, #ff7a45);
+  color: #fff;
+  font-weight: 800;
+  font-size: 13px;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+}
+
+.cs-badge-row__right {
+  flex: 1;
+  background: #4a3428;
+  color: #f5e6d3;
+  font-size: 11px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.02em;
+}
+
+.cs-name-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.cs-name-row h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  color: #222;
+}
+
+.cs-price {
+  color: #ff5a1f;
+  font-size: 18px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.cs-price small {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.cs-titles {
+  margin: 0 0 10px;
+  font-size: 12px;
+  line-height: 1.55;
+  color: #666;
+}
+
+.cs-meta-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.cs-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cs-tag {
+  font-size: 11px;
+  color: #8a5a3a;
+  background: #fff4e8;
+  border: 1px solid #f0d7c0;
+  border-radius: 4px;
+  padding: 3px 8px;
+}
+
+.cs-loc {
+  font-size: 11px;
+  color: #999;
+  white-space: nowrap;
+  padding-top: 2px;
+}
+
+.cs-exp {
+  background: #fff8e8;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.cs-exp__head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #5c4a32;
+  margin-bottom: 10px;
+}
+
+.cs-exp__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  text-align: center;
+}
+
+.cs-exp__grid strong {
+  display: block;
+  font-size: 15px;
+  color: #333;
+  margin-bottom: 2px;
+}
+
+.cs-exp__grid span {
+  font-size: 10px;
+  color: #999;
+  line-height: 1.3;
+}
+
+.cs-modes {
+  font-size: 12px;
+  color: #888;
+  margin: 0;
+}
+
+.cs-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 8;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px));
+  background: #fff;
+  border-top: 1px solid #eee;
+  box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.04);
+}
+
+.cs-bottom__price {
+  font-size: 18px;
+  font-weight: 800;
+  color: #ff5a1f;
+  min-width: 88px;
+}
+
+.cs-bottom__price small {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.cs-btn {
+  flex: 1;
+  height: 44px;
+  border-radius: 999px;
+  border: 0;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cs-btn--ghost {
+  background: #fff4ee;
+  color: #ff7a45;
+  border: 1px solid #ff9a6a;
+  flex: 0.9;
+}
+
+.cs-btn--primary {
+  background: linear-gradient(90deg, #ff9a5a, #ff6a35);
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(255, 106, 53, 0.28);
+  flex: 1.1;
+}
+
+/* 预约详情 */
+.cs-book-card {
+  margin: 12px 16px;
+  background: #fff;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+}
+
+.cs-counselor {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.cs-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  background: linear-gradient(145deg, #ddd, #bbb);
+  flex-shrink: 0;
+}
+
+.cs-counselor h2 {
+  margin: 0 0 4px;
+  font-size: 16px;
+}
+
+.cs-counselor p {
+  margin: 0;
+  font-size: 12px;
+  color: #666;
+  line-height: 1.5;
+}
+
+.cs-section {
+  margin: 12px 16px;
+  background: #fff;
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.cs-section__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.cs-section__head h3 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.cs-link {
+  border: 0;
+  background: none;
+  color: #ff7a45;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+}
+
+.cs-pick {
+  width: 100%;
+  min-height: 44px;
+  border: 1px dashed #ddd;
+  border-radius: 10px;
+  background: #fafafa;
+  color: #999;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+  padding: 10px 12px;
+}
+
+.cs-pick.is-filled {
+  border-style: solid;
+  border-color: #ffd0b8;
+  background: #fff8f4;
+  color: #333;
+  font-weight: 600;
+}
+
+.cs-plan {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px;
+  border: 1.5px solid #ff8a65;
+  border-radius: 12px;
+  background: #fff8f4;
+}
+
+.cs-plan strong {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 2px;
+}
+
+.cs-plan span {
+  font-size: 11px;
+  color: #999;
+}
+
+.cs-plan em {
+  font-style: normal;
+  color: #ff5a1f;
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.cs-check {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ff7a45;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+/* 日历弹层 */
+.cs-sheet-modal {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: flex-end;
+}
+
+.cs-sheet-modal[hidden] {
+  display: none !important;
+}
+
+.cs-cal {
+  width: 100%;
+  background: #fff;
+  border-radius: 18px 18px 0 0;
+  padding: 14px 14px 18px;
+  max-height: 78%;
+  overflow: auto;
+}
+
+.cs-cal__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.cs-cal__head h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.cs-cal__close {
+  border: 0;
+  background: #f0f0f0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  color: #666;
+}
+
+.cs-cal__month {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #666;
+  margin: 4px 0 10px;
+}
+
+.cs-cal__week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  text-align: center;
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 6px;
+}
+
+.cs-cal__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.cs-day {
+  border: 0;
+  background: #fff;
+  border-radius: 8px;
+  min-height: 54px;
+  padding: 6px 2px;
+  font: inherit;
+  cursor: pointer;
+  box-shadow: 0 0 0 1px #eee;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.cs-day b {
+  font-size: 14px;
+  color: #333;
+  font-weight: 700;
+}
+
+.cs-day small {
+  font-size: 10px;
+  color: #bbb;
+}
+
+.cs-day.is-disabled {
+  background: #f5f5f5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.cs-day.is-disabled b {
+  color: #bbb;
+}
+
+.cs-day.is-today small {
+  color: #ff7a45;
+  font-weight: 700;
+}
+
+.cs-day.is-selected {
+  background: #fff1eb;
+  box-shadow: 0 0 0 1.5px #ff8a65;
+}
+
+.cs-day.is-selected b {
+  color: #ff7a45;
+}
+
+.cs-cal__dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin: 12px 0 14px;
+}
+
+.cs-cal__dots i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ddd;
+  display: block;
+}
+
+.cs-cal__dots i.is-on {
+  background: #ff7a45;
+}
+
+.cs-recipient-list {
+  display: grid;
+  gap: 8px;
+}
+
+.cs-recipient-list button {
+  border: 1px solid #eee;
+  background: #fff;
+  border-radius: 10px;
+  padding: 12px;
+  text-align: left;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.cs-recipient-list button.is-on {
+  border-color: #ff8a65;
+  background: #fff8f4;
+  color: #ff7a45;
+  font-weight: 700;
+}

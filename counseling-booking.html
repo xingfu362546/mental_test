@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>预约详情</title>
+    <link rel="stylesheet" href="css/tokens.css" />
+    <link rel="stylesheet" href="css/ios-device.css" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="stylesheet" href="css/counseling.css" />
+  </head>
+  <body class="app-body">
+    <div class="ios-device">
+      <div class="ios-device__shell">
+        <div class="ios-device__screen">
+          <div class="ios-status-bar">
+            <span class="ios-status-bar__time">9:41</span>
+            <span class="ios-status-bar__island"></span>
+            <span class="ios-status-bar__icons" aria-hidden="true">···</span>
+          </div>
+          <div class="phone-frame">
+            <main class="app-scroll cs-page">
+              <nav class="cs-nav">
+                <a href="counseling-profile.html" id="cs-back-booking" aria-label="返回">‹</a>
+                <h1>预约详情</h1>
+              </nav>
+
+              <section class="cs-book-card">
+                <div class="cs-counselor">
+                  <div class="cs-avatar" aria-hidden="true"></div>
+                  <div>
+                    <h2>刘晓红</h2>
+                    <p>心理咨询师 | 心理督导师 | 国家心理咨询师职业资格培训师</p>
+                    <p style="margin-top:4px">擅长：婚姻家庭 · 情绪管理 · 亲子关系</p>
+                    <p class="cs-loc" style="margin-top:6px;padding:0">📍 广州市/黄埔区</p>
+                  </div>
+                </div>
+              </section>
+
+              <section class="cs-section">
+                <div class="cs-section__head">
+                  <h3>预约时间</h3>
+                  <button type="button" class="cs-link" id="cs-open-cal">更多时间</button>
+                </div>
+                <button type="button" class="cs-pick" id="cs-time-pick">请选择可约时间</button>
+              </section>
+
+              <section class="cs-section">
+                <div class="cs-section__head">
+                  <h3>服务对象</h3>
+                </div>
+                <button type="button" class="cs-pick" id="cs-person-pick">＋ 请选择服务对象</button>
+              </section>
+
+              <section class="cs-section">
+                <div class="cs-section__head">
+                  <h3>服务方案</h3>
+                </div>
+                <div class="cs-plan">
+                  <div>
+                    <strong>督导服务一次卡（刘晓红）</strong>
+                    <span>原型演示方案 · 不接真实支付</span>
+                  </div>
+                  <em>¥ 2000</em>
+                  <div class="cs-check" aria-hidden="true">✓</div>
+                </div>
+              </section>
+            </main>
+
+            <div class="cs-bottom">
+              <button type="button" class="cs-btn cs-btn--primary" id="cs-submit" style="flex:1">
+                立即预约 ¥2000
+              </button>
+            </div>
+            <div class="ios-home-indicator"></div>
+          </div>
+
+          <!-- 可约时间弹层 -->
+          <div class="cs-sheet-modal" id="cs-cal-modal" hidden>
+            <div class="cs-cal" role="dialog" aria-label="可约时间">
+              <div class="cs-cal__head">
+                <h3>可约时间</h3>
+                <button type="button" class="cs-cal__close" id="cs-cal-close" aria-label="关闭">×</button>
+              </div>
+              <div class="cs-cal__month">2026/08</div>
+              <div class="cs-cal__week">
+                <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
+              </div>
+              <div class="cs-cal__grid" id="cs-cal-grid"></div>
+              <div class="cs-cal__dots"><i class="is-on"></i><i></i></div>
+              <button type="button" class="cs-btn cs-btn--primary" id="cs-cal-confirm" style="width:100%">确认</button>
+            </div>
+          </div>
+
+          <!-- 服务对象弹层 -->
+          <div class="cs-sheet-modal" id="cs-person-modal" hidden>
+            <div class="cs-cal" role="dialog" aria-label="服务对象">
+              <div class="cs-cal__head">
+                <h3>选择服务对象</h3>
+                <button type="button" class="cs-cal__close" id="cs-person-close" aria-label="关闭">×</button>
+              </div>
+              <div class="cs-recipient-list" id="cs-person-list">
+                <button type="button" data-name="本人">本人</button>
+                <button type="button" data-name="伴侣">伴侣</button>
+                <button type="button" data-name="孩子">孩子</button>
+                <button type="button" data-name="其他家人">其他家人</button>
+              </div>
+              <button type="button" class="cs-btn cs-btn--primary" id="cs-person-confirm" style="width:100%;margin-top:14px">
+                确认
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/device.js"></script>
+    <script src="js/counseling.js"></script>
+  </body>
+</html>

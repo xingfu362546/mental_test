@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content="0;url=counseling-profile.html" />
+    <title>跳转心理咨询…</title>
+    <script>
+      (function () {
+        var from = "xinhua";
+        try {
+          from = sessionStorage.getItem("counselingFrom") || from;
+        } catch (e) {}
+        location.replace("counseling-profile.html?from=" + encodeURIComponent(from));
+      })();
+    </script>
+  </head>
+  <body>
+    <p>正在跳转心理咨询导师主页…</p>
+  </body>
+</html>
