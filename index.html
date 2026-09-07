@@ -13,25 +13,30 @@
         <p class="nav-hero__eye">6Q MENTAL TEST · FEATURE BY VERSION</p>
         <h1>6Q 测评 · 版本功能清单</h1>
         <p>
-          当前演示重点 <strong>v1.0.4</strong>：人生旅程改为「语音/文字描述 → 四元素校验 → 成图」；构图画板纯白底描边无填充。
-          本期仅维护 <strong>C 端 App</strong>。
+          版本清单<strong>倒序</strong>展示。当前最新：<strong>心画测评H5版本（H5-v1.0.1）</strong>；
+          App 全量链路见<strong>超级爸妈APP心画测评版本（v1.0.4）</strong>。
         </p>
         <div class="nav-hero__links">
+          <a href="#h5v101">H5-v1.0.1</a>
+          <a href="#h5v100">H5-v1.0.0</a>
           <a href="#flows">流程图</a>
-          <a href="#v104">v1.0.4 当前</a>
+          <a href="#v104">APP v1.0.4</a>
           <a href="#v103">v1.0.3</a>
           <a href="#v102">v1.0.2</a>
           <a href="#v101">v1.0.1</a>
           <a href="#v100">v1.0.0</a>
           <a href="#v010">v0.1.0 基线</a>
-          <a href="app-home.html">打开 C 端 App →</a>
+          <a href="h5/entry.html">打开 H5 →</a>
+          <a href="app-home.html">打开超级爸妈APP →</a>
           <a href="docs/FEATURES.md">FEATURES.md</a>
         </div>
       </header>
 
       <nav class="ver-jump" aria-label="版本跳转">
+        <a class="is-current" href="#h5v101">H5-v1.0.1</a>
+        <a href="#h5v100">H5-v1.0.0</a>
         <a href="#flows">流程图</a>
-        <a class="is-current" href="#v104">v1.0.4</a>
+        <a href="#v104">APP v1.0.4</a>
         <a href="#v103">v1.0.3</a>
         <a href="#v102">v1.0.2</a>
         <a href="#v101">v1.0.1</a>
@@ -230,10 +235,64 @@ flowchart LR
         </details>
       </section>
 
+      <article class="ver-card" id="h5v101">
+        <div class="ver-card__head">
+          <div>
+            <h2><span class="ver-badge">H5-v1.0.1</span> 心画测评H5版本（当前）</h2>
+            <p class="ver-card__meta">2026-09-07 · 结果体验与输入流程优化</p>
+          </div>
+          <p class="ver-card__theme">同页校验成图 · 结果隐藏类型名 · 分享转发</p>
+        </div>
+        <div class="ver-mod">
+          <div class="ver-mod__head">
+            <h3>模块 · 人生旅程（H5）</h3>
+            <a href="h5/entry.html">打开演示 →</a>
+          </div>
+          <ul>
+            <li><strong>输入</strong>：强化按住说话；语音解读后再出主按钮；同页校验并直接生成（去掉重复确认页）</li>
+            <li><strong>结果</strong>：不向用户展示模式类型名称；<code>patternId</code> 仍写入进度供智能体使用</li>
+            <li><strong>CTA</strong>：「完成」改为「分享转发」（Web Share / 复制链接演示）</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="ver-card" id="h5v100">
+        <div class="ver-card__head">
+          <div>
+            <h2><span class="ver-badge ver-badge--base">H5-v1.0.0</span> 心画测评H5版本</h2>
+            <p class="ver-card__meta">2026-09-02 · 人生旅程独立 H5</p>
+          </div>
+          <p class="ver-card__theme">扫码落地 entry → mock 手机号登录 → 引导/成图/解读；按进度续测</p>
+        </div>
+        <div class="ver-mod">
+          <div class="ver-mod__head">
+            <h3>模块 · 人生旅程（H5 独立）</h3>
+            <a href="h5/entry.html">打开演示 →</a>
+          </div>
+          <ul>
+            <li><strong>目录</strong>：全部页面在 <code>h5/</code>，与超级爸妈APP版并存</li>
+            <li><strong>范围</strong>：仅人生旅程；无 App 首页、无构图/AQ 等入口</li>
+            <li><strong>登录</strong>：假「微信授权手机号」（正式接小程序授权）</li>
+            <li><strong>续测</strong>：已解读 → 直达结果；已生图未解读 → 提示后回 canvas</li>
+            <li><strong>结果页</strong>：不展示课程 / 咨询资讯入口</li>
+          </ul>
+        </div>
+        <div class="ver-mod">
+          <div class="ver-mod__head">
+            <h3>特殊性说明</h3>
+          </div>
+          <ul>
+            <li>独立产品壳，不依赖 <code>app-home.html</code></li>
+            <li>进度与会话按 mock userId 存 <code>localStorage</code>（演示用，非正式鉴权）</li>
+            <li>设计说明：<code>docs/superpowers/specs/2026-09-02-journey-h5-edition-design.md</code></li>
+          </ul>
+        </div>
+      </article>
+
       <article class="ver-card" id="v104">
         <div class="ver-card__head">
           <div>
-            <h2><span class="ver-badge">v1.0.4</span> 当前演示</h2>
+            <h2><span class="ver-badge">v1.0.4</span> 超级爸妈APP心画测评版本</h2>
             <p class="ver-card__meta">2026-08-13 · 旅程描述成图 + 构图白底描边</p>
           </div>
           <p class="ver-card__theme">旅程：语音/文字 → 四元素校验 → 确认 → 成图（最多3张）；构图：白底 □○ 描边无填充</p>

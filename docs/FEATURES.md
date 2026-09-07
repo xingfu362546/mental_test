@@ -1,5 +1,7 @@
 # 6Q 测评原型 · 功能清单
 
+> 版本按时间**倒序**排列（最新在上）。当前 H5：**H5-v1.0.1**；当前 App：**v1.0.4（超级爸妈APP心画测评版本）**。
+
 ## 流程图（画板 → 模型 → 解读）
 
 完整可交互展开版见 [`index.html#flows`](../index.html#flows)。以下为同构摘要。
@@ -40,7 +42,39 @@ flowchart TD
   Gen --> Result[展示成图与固定解读 j04]
 ```
 
-## v1.0.4（当前演示）
+## H5-v1.0.1（心画测评H5版本 · 当前）
+
+| ID | 功能 | 状态 |
+|----|------|------|
+| F210 | 描述页：强化按住说话；解读出现后再出主 CTA；同页校验并直接生成（去掉中间确认页） | done |
+| F211 | 结果页不对用户展示模式类型名称；`patternId` 仍写入进度/payload 供智能体 | done |
+| F212 | 结果页主按钮「完成」改为「分享转发」（Share API / 复制链接演示） | done |
+| F213 | 功能清单倒序展示最新版本；注释与 README 同步 | done |
+
+入口：[`h5/entry.html`](../h5/entry.html)
+
+## H5-v1.0.0（心画测评H5版本）
+
+**特殊性说明**
+
+1. 独立目录 `h5/`，与「超级爸妈APP心画测评版本」并存，互不影响。
+2. 仅人生旅程；无 App 多测评首页、无构图/AQ 等入口。
+3. 扫码落地 `h5/entry.html`：mock 手机号登录门禁 + 进度续测（已解读直达结果；已生图未解读提示后回 canvas）。
+4. 结果页不展示课程/咨询资讯入口。
+5. 登录为小程序授权手机号的 **mock**；正式待接真授权与后端。
+
+| ID | 功能 | 状态 |
+|----|------|------|
+| F200 | `h5/` 独立壳：entry / login / journey-guide / canvas / result | done |
+| F201 | mock「微信授权手机号」会话（`h5-auth.js`） | done |
+| F202 | 按 userId 进度 none/composing/completed（`h5-progress.js`） | done |
+| F203 | entry 分流：登录门禁 + 续测提示 + 结果直达 | done |
+| F204 | H5 结果页隐藏课程与咨询；完成 / 重新测试（完成已由 H5-v1.0.1 改为分享转发） | done |
+| F205 | `index.html` / FEATURES / README 双产品命名与特殊性说明 | done |
+
+入口：[`h5/entry.html`](../h5/entry.html) · 设计：[`specs/2026-09-02-journey-h5-edition-design.md`](superpowers/specs/2026-09-02-journey-h5-edition-design.md)
+
+## v1.0.4（超级爸妈APP心画测评版本）
 
 | ID | 功能 | 状态 |
 |----|------|------|

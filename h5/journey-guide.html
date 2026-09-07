@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>心画测评H5｜人生旅程引导</title>
+    <link rel="stylesheet" href="../css/tokens.css" />
+    <link rel="stylesheet" href="../css/ios-device.css" />
+    <link rel="stylesheet" href="../css/app.css" />
+    <link rel="stylesheet" href="../css/xinhua.css" />
+    <link rel="stylesheet" href="../css/journey.css" />
+  </head>
+  <body class="app-body">
+    <div class="ios-device">
+      <div class="ios-device__shell">
+        <div class="ios-device__screen">
+          <div class="ios-status-bar">
+            <span class="ios-status-bar__time">9:41</span>
+            <span class="ios-status-bar__island"></span>
+            <span class="ios-status-bar__icons" aria-hidden="true">···</span>
+          </div>
+          <div class="phone-frame">
+            <main class="app-scroll jh-comic-page">
+              <nav class="xh-nav jh-comic-nav">
+                <a href="entry.html" aria-label="返回">‹</a>
+                <h1>人生旅程</h1>
+                <span class="jh-comic-progress" id="jh-comic-progress">1 / 5</span>
+              </nav>
+
+              <div class="jh-comic-stage" id="jh-comic-stage" aria-live="polite"></div>
+
+              <div class="jh-comic-footer">
+                <button type="button" class="xh-btn xh-btn--ghost" id="jh-comic-prev" disabled>上一页</button>
+                <button type="button" class="xh-btn" id="jh-comic-next">下一页</button>
+                <a class="xh-btn jh-comic-cta" id="jh-comic-start" href="journey-canvas.html" hidden>开始心画</a>
+              </div>
+            </main>
+            <div class="ios-home-indicator"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="../js/device.js"></script>
+    <script src="js/h5-auth.js"></script>
+    <script src="js/journey-guide.js"></script>
+  </body>
+</html>

@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>心画测评H5｜描述与成图</title>
+    <link rel="stylesheet" href="../css/tokens.css" />
+    <link rel="stylesheet" href="../css/ios-device.css" />
+    <link rel="stylesheet" href="../css/app.css" />
+    <link rel="stylesheet" href="../css/xinhua.css" />
+    <link rel="stylesheet" href="../css/journey.css" />
+    <link rel="stylesheet" href="css/h5-journey.css" />
+  </head>
+  <body class="app-body">
+    <div class="ios-device">
+      <div class="ios-device__shell">
+        <div class="ios-device__screen">
+          <div class="ios-status-bar">
+            <span class="ios-status-bar__time">9:41</span>
+            <span class="ios-status-bar__island"></span>
+            <span class="ios-status-bar__icons" aria-hidden="true">···</span>
+          </div>
+          <div class="phone-frame">
+            <main class="app-scroll jh-world-page">
+              <nav class="xh-nav jh-world-nav">
+                <a href="journey-guide.html" aria-label="返回">‹</a>
+                <h1>描述旅程</h1>
+              </nav>
+
+              <p class="jh-lead jh-lead--light">
+                用语音或文字讲清旅程安排；描述须包含<strong>猴子、小鸟、背包、蛇</strong>。确认后生成旅程图。
+              </p>
+
+              <div class="jh-lawn" aria-label="草坪场景">
+                <div class="jh-lawn__sky"></div>
+                <div
+                  class="jh-lawn__art"
+                  style="background-image:url('../assets/journey/journey-scene-lawn-board.png')"
+                ></div>
+                <div class="jh-board jh-board--compose" id="jh-board" aria-label="旅程画板">
+                  <div class="jh-board-empty" id="jh-board-empty">确认描述并生成后，旅程图将出现在这里</div>
+                  <div class="jh-board-wait" id="jh-board-wait" hidden>
+                    <div class="jh-compose__spinner" aria-hidden="true"></div>
+                    <p id="jh-board-wait-tip">模型正在绘制旅程图…</p>
+                  </div>
+                  <img class="jh-board-img" id="jh-board-img" alt="生成的旅程图" hidden />
+                </div>
+                <p class="jh-lawn__hint">草坪上的画板 · 生成结果只读展示</p>
+              </div>
+
+              <section class="jh-panel jh-panel--h5-voice" id="jh-step-input">
+                <strong class="jh-h5-voice-title">讲述你的旅程</strong>
+                <p class="hint jh-h5-voice-hint">须包含四位旅伴：猴子、小鸟、背包、蛇。演示不真实录音。</p>
+
+                <div class="jh-h5-mic-wrap">
+                  <button
+                    type="button"
+                    class="jh-mic jh-mic--hero"
+                    id="jh-mic"
+                    aria-label="按住说话"
+                    title="按住说话"
+                  >
+                    <span class="jh-mic__pulse" aria-hidden="true"></span>
+                    <span class="jh-mic__icon" aria-hidden="true">🎤</span>
+                  </button>
+                  <p class="jh-h5-mic-label"><b>按住说话</b><small>松开后生成文字解读</small></p>
+                </div>
+
+                <button type="button" class="jh-h5-type-toggle" id="jh-type-toggle">改用文字输入</button>
+
+                <div class="jh-h5-interpret" id="jh-interpret" hidden>
+                  <div class="jh-h5-interpret__head">
+                    <strong>语音解读结果</strong>
+                    <span>可编辑；通过校验后将直接生成旅程图</span>
+                  </div>
+                  <textarea
+                    id="jh-desc-input"
+                    rows="4"
+                    placeholder="例如：我和猴子并肩走，小鸟飞在前面，背包在脚边，蛇跟在后面……"
+                  ></textarea>
+                  <p class="jh-miss" id="jh-miss" hidden></p>
+                  <div class="jh-actions jh-h5-check-wrap" id="jh-check-wrap" hidden>
+                    <button type="button" class="xh-btn" id="jh-check">确认并生成旅程图</button>
+                  </div>
+                </div>
+              </section>
+
+              <section class="jh-panel" id="jh-step-confirm-img" hidden>
+                <strong>请确认画板上的旅程图</strong>
+                <p class="hint" style="margin:6px 0 0">
+                  不满意可重新生成（还可 <span id="jh-regen-left">2</span> 次）。描述已锁定。
+                </p>
+                <div class="jh-actions" style="margin-top:10px">
+                  <button type="button" class="xh-btn xh-btn--ghost" id="jh-regen" disabled>重新生成</button>
+                  <button type="button" class="xh-btn" id="jh-next">确认并查看解读</button>
+                </div>
+              </section>
+            </main>
+            <div class="ios-home-indicator"></div>
+          </div>
+
+          <div class="jh-hold-overlay" id="jh-hold-overlay" hidden>
+            <div class="jh-hold-card" id="jh-hold-card">
+              <div class="jh-hold-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+              <p class="jh-hold-title" id="jh-hold-title">正在听取…</p>
+              <p class="jh-hold-tip" id="jh-hold-tip">上滑取消</p>
+              <p class="jh-hold-time" id="jh-hold-time">0s</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="../js/device.js"></script>
+    <script src="../js/journey-voice-mock.js"></script>
+    <script src="../js/journey-ai-mock.js"></script>
+    <script src="js/h5-auth.js"></script>
+    <script src="js/h5-progress.js"></script>
+    <script src="js/journey-canvas.js"></script>
+  </body>
+</html>
