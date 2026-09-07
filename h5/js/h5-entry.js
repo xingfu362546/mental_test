@@ -1,7 +1,25 @@
+/**
+ * H5 入口：每次进入先强制微信手机号授权，再按进度分流
+ */
 (function () {
   const tip = document.getElementById("h5-entry-tip");
+  const params = new URLSearchParams(location.search);
+  const justAuthed = params.get("authed") === "1";
+
+  // 非「刚授权回来」：清会话并进入授权页（每次扫码/打开都要授权）
+  if (!justAuthed) {
+    if (window.H5Auth) window.H5Auth.clearSession();
+    location.replace("login.html");
+    return;
+  }
+
   const session = window.H5Auth.requireLogin("login.html");
   if (!session) return;
+
+  // 去掉 query，避免刷新误当成已授权跳过登录
+  try {
+    history.replaceState(null, "", "entry.html");
+  } catch (e) {}
 
   const progress = window.H5Progress.get(session.userId);
   const status = progress.status || "none";
@@ -35,11 +53,11 @@
     if (ok) {
       go("journey-canvas.html?resume=1");
     } else {
-      if (tip) tip.textContent = "已取消。可关闭页面，或刷新本页再次选择。";
+      if (tip) tip.textContent = "已取消。可关闭页面，或从入口重新进入。";
     }
     return;
   }
 
-  if (tip) tip.textContent = "欢迎，" + session.phoneMasked + "。即将开始人生旅程…";
+  if (tip) tip.textContent = "授权成功，即将开始人生旅程…";
   setTimeout(() => go("journey-guide.html"), 400);
 })();

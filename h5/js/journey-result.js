@@ -63,11 +63,25 @@
     imageUrl: imageUrl,
     patternId: patternId,
     description: description,
-    genCount: saved.genCount || 0,
+    genCount: saved.genCount || 1,
+    retestCount: saved.retestCount || 0,
   });
 
   const btnShare = document.getElementById("h5-share");
   const btnRetest = document.getElementById("h5-retest");
+
+  function syncRetestBtn() {
+    if (!btnRetest) return;
+    const left = window.H5Progress.retestLeft(session.userId);
+    if (left <= 0) {
+      btnRetest.disabled = true;
+      btnRetest.textContent = "重新测试已用尽";
+    } else {
+      btnRetest.disabled = false;
+      btnRetest.textContent = "重新测试（还可 " + left + " 次）";
+    }
+  }
+  syncRetestBtn();
 
   if (btnShare) {
     btnShare.addEventListener("click", () => {
@@ -100,12 +114,26 @@
 
   if (btnRetest) {
     btnRetest.addEventListener("click", () => {
-      const ok = window.confirm("重新测试将清空当前解读进度，是否继续？");
+      if (!window.H5Progress.canRetest(session.userId)) {
+        SixQDevice.toast("重新测试次数已用尽（每人最多 3 次）");
+        syncRetestBtn();
+        return;
+      }
+      const left = window.H5Progress.retestLeft(session.userId);
+      const ok = window.confirm(
+        "重新测试将清空当前解读（还可 " + left + " 次，用完不可再测）。是否继续？"
+      );
       if (!ok) return;
-      window.H5Progress.clear(session.userId);
+      const res = window.H5Progress.startRetest(session.userId);
+      if (!res.ok) {
+        SixQDevice.toast(res.reason || "无法重新测试");
+        syncRetestBtn();
+        return;
+      }
       try {
         sessionStorage.removeItem("journeyPayload");
       } catch (e) {}
+      SixQDevice.toast("已开始重新测试，剩余 " + res.left + " 次");
       location.href = "journey-guide.html";
     });
   }

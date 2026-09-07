@@ -1,6 +1,5 @@
 /**
- * H5 人生旅程画板：语音/文字 → 同页校验 → 直接成图；写入 H5Progress；支持 resume
- * （H5-v1.0.1：去掉中间「请确认旅程描述」页）
+ * H5 人生旅程画板：语音/文字 → 同页校验 → 成图一次（不支持重新生图）
  */
 (function () {
   const session = window.H5Auth && window.H5Auth.requireLogin("login.html");
@@ -10,7 +9,6 @@
     window.JourneyAIMock.DEMO_IMAGE = "../assets/journey/journey-compose-demo.png";
   }
 
-  const MAX_GEN = 3;
   const HOLD_MS = 300;
   const MAX_HOLD_MS = 15000;
   const CANCEL_DY = 56;
@@ -23,9 +21,7 @@
   const typeToggle = document.getElementById("jh-type-toggle");
   const stepInput = document.getElementById("jh-step-input");
   const stepConfirmImg = document.getElementById("jh-step-confirm-img");
-  const btnRegen = document.getElementById("jh-regen");
   const btnNext = document.getElementById("jh-next");
-  const regenLeftEl = document.getElementById("jh-regen-left");
 
   const boardEmpty = document.getElementById("jh-board-empty");
   const boardWait = document.getElementById("jh-board-wait");
@@ -40,7 +36,6 @@
   const holdTime = document.getElementById("jh-hold-time");
 
   let lockedDesc = "";
-  let genCount = 0;
   let composePayload = null;
   let generating = false;
   let hold = null;
@@ -81,24 +76,16 @@
   }
 
   function saveComposing() {
+    const prev = window.H5Progress.get(session.userId);
     window.H5Progress.set(session.userId, {
       status: "composing",
       lockedDesc: lockedDesc,
       imageUrl: composePayload ? composePayload.imageUrl : "",
       patternId: composePayload ? composePayload.patternId : "",
       description: lockedDesc,
-      genCount: genCount,
+      genCount: 1,
+      retestCount: prev.retestCount || 0,
     });
-  }
-
-  function regenLeft() {
-    return Math.max(0, MAX_GEN - genCount);
-  }
-
-  function syncRegenUI() {
-    const left = regenLeft();
-    if (regenLeftEl) regenLeftEl.textContent = String(left);
-    btnRegen.disabled = left <= 0 || generating || !composePayload;
   }
 
   function showStep(which) {
@@ -115,12 +102,12 @@
   function runGenerate() {
     if (generating) return;
     if (!lockedDesc) return;
-    if (genCount >= MAX_GEN) {
-      SixQDevice.toast("重新生成次数已用尽");
+    if (composePayload) {
+      SixQDevice.toast("旅程图已生成，本版不支持重新生成");
+      showStep("confirmImg");
       return;
     }
     generating = true;
-    syncRegenUI();
     if (btnCheck) btnCheck.disabled = true;
     setBoardState("wait");
     const tips = ["正在理解旅程描述…", "正在安排四位旅伴…", "正在绘制完整旅途…"];
@@ -134,7 +121,6 @@
     const delay = (window.JourneyAIMock && window.JourneyAIMock.COMPOSE_DELAY_MS) || 2600;
     setTimeout(() => {
       clearInterval(tipTimer);
-      genCount += 1;
       composePayload = window.JourneyAIMock.composeBoard([]);
       composePayload.description = lockedDesc;
       boardImg.src = composePayload.imageUrl;
@@ -142,9 +128,8 @@
       generating = false;
       if (btnCheck) btnCheck.disabled = false;
       showStep("confirmImg");
-      syncRegenUI();
       saveComposing();
-      SixQDevice.toast(genCount === 1 ? "旅程图已生成" : "已重新生成旅程图");
+      SixQDevice.toast("旅程图已生成");
     }, delay);
   }
 
@@ -170,14 +155,6 @@
     runGenerate();
   });
 
-  btnRegen.addEventListener("click", () => {
-    if (regenLeft() <= 0) {
-      SixQDevice.toast("重新生成次数已用尽");
-      return;
-    }
-    runGenerate();
-  });
-
   btnNext.addEventListener("click", () => {
     if (!composePayload) {
       SixQDevice.toast("请先生成并确认旅程图");
@@ -196,13 +173,15 @@
         })
       );
     } catch (e) {}
+    const prev = window.H5Progress.get(session.userId);
     window.H5Progress.set(session.userId, {
       status: "completed",
       lockedDesc: lockedDesc,
       imageUrl: composePayload.imageUrl,
       patternId: composePayload.patternId,
       description: lockedDesc,
-      genCount: genCount,
+      genCount: 1,
+      retestCount: prev.retestCount || 0,
     });
     location.href = "journey-result.html";
   });
@@ -306,12 +285,10 @@
     if (hold) endHold({ cancelled: true });
   });
 
-  // resume：从进度恢复已生图状态
   const params = new URLSearchParams(location.search);
   const saved = window.H5Progress.get(session.userId);
   if ((params.get("resume") === "1" || saved.status === "composing") && saved.imageUrl && saved.lockedDesc) {
     lockedDesc = saved.lockedDesc;
-    genCount = saved.genCount || 1;
     composePayload = {
       imageUrl: saved.imageUrl,
       description: saved.lockedDesc,
@@ -321,11 +298,9 @@
     boardImg.src = composePayload.imageUrl;
     setBoardState("img");
     showStep("confirmImg");
-    syncRegenUI();
   } else {
     showStep("input");
     setBoardState("empty");
-    syncRegenUI();
     syncCheckVisibility();
   }
 })();

@@ -3,12 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>心画测评H5｜登录</title>
+    <title>微信授权手机号</title>
     <link rel="stylesheet" href="../css/tokens.css" />
     <link rel="stylesheet" href="../css/ios-device.css" />
     <link rel="stylesheet" href="../css/app.css" />
-    <link rel="stylesheet" href="../css/xinhua.css" />
-    <link rel="stylesheet" href="../css/journey.css" />
+    <link rel="stylesheet" href="css/h5-auth.css" />
   </head>
   <body class="app-body">
     <div class="ios-device">
@@ -19,24 +18,34 @@
             <span class="ios-status-bar__island"></span>
             <span class="ios-status-bar__icons" aria-hidden="true">···</span>
           </div>
-          <div class="phone-frame">
-            <main class="app-scroll" style="padding:24px 18px">
-              <nav class="xh-nav">
-                <span aria-hidden="true"></span>
-                <h1>登录</h1>
-              </nav>
-              <p class="jh-lead" style="margin-top:12px">
-                <strong>心画测评 · 人生旅程</strong><br />
-                正式环境将通过小程序授权手机号登录。本页为演示用假授权。
-              </p>
-              <section class="jh-panel" style="margin-top:20px">
-                <button type="button" class="xh-btn" id="h5-login-btn" style="width:100%">
-                  微信授权手机号
+          <div class="phone-frame wx-auth-frame">
+            <!-- 对齐微信小程序「手机号快速验证」授权页结构，不展示假手机号 -->
+            <main class="wx-auth" role="dialog" aria-labelledby="wx-auth-title">
+              <header class="wx-auth__brand">
+                <span class="wx-auth__logo" aria-hidden="true">微</span>
+                <span class="wx-auth__brand-name">微信</span>
+              </header>
+
+              <h1 class="wx-auth__title" id="wx-auth-title">手机号快速验证</h1>
+              <p class="wx-auth__app">心画测评申请使用</p>
+
+              <section class="wx-auth__card">
+                <p class="wx-auth__label">微信绑定号码</p>
+                <p class="wx-auth__phone-placeholder">授权后由微信提供</p>
+                <button type="button" class="wx-auth__other" id="h5-login-other" disabled>
+                  使用其他号码
                 </button>
-                <p class="xh-hint" style="margin-top:12px">
-                  演示将写入本地会话（138****0000），便于续测分流。
-                </p>
               </section>
+
+              <p class="wx-auth__privacy">
+                授权后，微信将把你的手机号提供给「心画测评」，用于登录核验与测评进度保存。详情见
+                <a href="#" class="wx-auth__link" id="h5-privacy">隐私保护指引</a>
+              </p>
+
+              <div class="wx-auth__actions">
+                <button type="button" class="wx-auth__allow" id="h5-login-allow">允许</button>
+                <button type="button" class="wx-auth__deny" id="h5-login-deny">拒绝</button>
+              </div>
             </main>
             <div class="ios-home-indicator"></div>
           </div>

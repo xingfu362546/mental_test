@@ -4,21 +4,17 @@
 
 | 产品 | 版本 | 入口 |
 |------|------|------|
-| **心画测评H5版本** | **H5-v1.0.1**（当前） | [`h5/entry.html`](h5/entry.html) |
-| 心画测评H5版本 | H5-v1.0.0 | 同上（首版独立壳） |
+| **心画测评H5版本** | **H5-v1.0.2**（当前） | [`h5/entry.html`](h5/entry.html) |
+| 心画测评H5版本 | H5-v1.0.1 / H5-v1.0.0 | 同上 |
 | **超级爸妈APP心画测评版本** | v1.0.4 | [`app-home.html`](app-home.html) |
 
 打开 [`index.html`](index.html) 查看版本功能清单。
 
-## 心画测评H5版本（H5-v1.0.1）
+## 心画测评H5版本（H5-v1.0.2）
 
 ```
-h5/entry.html（登录门禁 + 进度分流）
-  ├─ login.html（假微信授权手机号）
-  └─ journey-guide → journey-canvas → journey-result
-       · 同页：语音解读 → 校验并直接生成
-       · 结果不展示模式类型名（patternId 仍入库）
-       · 分享转发 / 重新测试；无课程咨询入口
+h5/entry.html → 每次强制 login（微信手机号授权 UI，无假号）
+  └─ 允许后 → guide / canvas / result（进度设备本地续测）
 ```
 
 特殊性见 `docs/FEATURES.md`（清单倒序，最新在上）。
