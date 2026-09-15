@@ -139,3 +139,67 @@
 .jh-h5-check-wrap .xh-btn {
   width: 100%;
 }
+
+.jh-h5-risk-demo {
+  margin: 8px 0 0;
+  text-align: center;
+}
+
+/* E：敏感内容温馨提示层 */
+.jh-risk-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: 24px 18px;
+  background: rgba(28, 22, 16, 0.55);
+  box-sizing: border-box;
+}
+
+.jh-risk-overlay[hidden] {
+  display: none !important;
+}
+
+.jh-risk-card {
+  width: 100%;
+  max-width: 320px;
+  padding: 20px 18px 16px;
+  border-radius: 14px;
+  background: #fffaf5;
+  box-shadow: 0 16px 40px rgba(40, 28, 18, 0.28);
+  box-sizing: border-box;
+}
+
+.jh-risk-title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: #2c241c;
+}
+
+.jh-risk-body {
+  margin: 12px 0 0;
+  font-size: 13px;
+  line-height: 1.65;
+  color: #4a3f35;
+  white-space: pre-wrap;
+}
+
+.jh-risk-actions {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.jh-risk-dev {
+  margin: 12px 0 0;
+  padding: 8px;
+  border-radius: 8px;
+  background: #f3eee7;
+  font-size: 10px;
+  line-height: 1.4;
+  color: #7a6a5c;
+  word-break: break-all;
+}

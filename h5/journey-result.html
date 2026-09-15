@@ -31,38 +31,42 @@
                 style="background-image:url('../assets/journey/journey-scene-camp-sign.png')"
               >
                 <div class="jh-result-hero__copy">
-                  <strong>旅途暂歇 · 路标解读</strong>
-                  <span>先看模型串联出的完整旅程图，再看探索性解读。反馈仅供自我觉察。</span>
+                  <strong>旅途暂歇 · 探索提示</strong>
+                  <span>先看根据描述生成的心画，再看温和的自我探索提示。没有标准答案。</span>
                 </div>
               </div>
 
               <section class="jh-result-compose">
-                <!-- 模式类型 patternId 仅写入进度/智能体数据，不对用户展示名称 -->
+                <!-- 后台 name/patternId 不展示；前台只展示 frontTheme（参与者呈现主题） -->
+                <p class="xh-hint" style="margin:0 0 4px;padding:0 14px">本次探索主题</p>
+                <p class="xh-pattern-headline" id="jh-theme">—</p>
                 <p class="xh-pattern-headline" id="jh-name" hidden aria-hidden="true"></p>
-                <p class="xh-hint" style="margin:0 0 10px;padding:0 14px">模型串联的完整旅程图（只读）</p>
-                <img id="jh-compose-img" alt="模型生成的完整旅程图" />
+                <p class="xh-hint" style="margin:10px 0 10px;padding:0 14px">专属旅程心画（只读 · 模拟呈现）</p>
+                <img id="jh-compose-img" alt="生成的旅程心画" />
                 <p id="jh-desc"></p>
               </section>
 
               <p class="jh-symbol-hint">
-                象征提示（探索假设，非标准答案）：猴子≈重要他人 · 小鸟≈孩子/脆弱部分 · 背包≈责任 · 蛇≈财富/安全感
+                四位旅伴是象征素材，含义因人而异；活动现场与海报不公开预设含义，请以您的真实感受为准。
               </p>
 
               <section class="xh-result-block">
-                <h3>常见安排</h3>
+                <h3>画面观察</h3>
                 <p id="jh-arrange"></p>
-                <h3>可能的积极面</h3>
-                <p id="jh-positive"></p>
-                <h3>需要觉察</h3>
+                <h3>可能的探索线索</h3>
                 <p id="jh-watch"></p>
-                <h3>开放式反馈</h3>
+                <h3>值得留意的积极资源</h3>
+                <p id="jh-positive"></p>
+                <h3>给自己的觉察提示</h3>
                 <p id="jh-feedback"></p>
-                <p class="xh-hint">反馈仅供自我观察与关系觉察，不作为心理诊断、人格定型或家庭关系评定依据。</p>
+                <p class="xh-hint">
+                  以上内容仅为探索性提示，不代表对您的性格、心理状态或家庭关系作出判断。如果部分内容与您不符，请以您的真实经历和感受为准。
+                </p>
               </section>
 
               <div class="xh-footer" style="display:flex;gap:10px;flex-wrap:wrap">
                 <button type="button" class="xh-btn" id="h5-share">分享转发</button>
-                <button type="button" class="xh-btn xh-btn--ghost" id="h5-retest">重新测试</button>
+                <a class="xh-btn xh-btn--ghost" id="h5-more" href="../app-home.html">去6Q超级爸妈查看更多测评</a>
               </div>
             </main>
             <div class="ios-home-indicator"></div>

@@ -2,7 +2,7 @@
   const patterns = window.JourneyPatterns || [];
   const imgEl = document.getElementById("jh-compose-img");
   const descEl = document.getElementById("jh-desc");
-  const nameEl = document.getElementById("jh-name");
+  const nameEl = document.getElementById("jh-theme") || document.getElementById("jh-name");
   const arrangeEl = document.getElementById("jh-arrange");
   const posEl = document.getElementById("jh-positive");
   const watchEl = document.getElementById("jh-watch");
@@ -28,15 +28,16 @@
   function render(id) {
     const p = patterns.find((x) => x.id === id) || patterns[0];
     if (!p) return;
-    nameEl.textContent = p.name;
+    // 前台展示参与者呈现主题；不展示后台模式名
+    nameEl.textContent = p.frontTheme || p.name || "—";
+    if (nameEl.setAttribute) nameEl.setAttribute("data-pattern-id", p.id || id);
     arrangeEl.textContent = p.arrange || "—";
     posEl.textContent = p.positive || "—";
     watchEl.textContent = p.watch || "—";
     fbEl.textContent =
+      p.feedbackNoType ||
       p.feedback ||
-      ("结合你的完整旅程图，可以先把当前安排理解为「" +
-        p.name +
-        "」。这只是探索线索，请对照你的真实感受与生活再核实。");
+      "结合你的完整旅程图与描述，可以对照下面的探索线索，再结合真实感受与生活核实。这不是心理诊断。";
   }
 
   render(patternId);

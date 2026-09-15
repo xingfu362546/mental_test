@@ -1,33 +1,42 @@
 /**
- * H5 人生旅程进度（本地分桶）
- * status: none | composing | completed
- * - patternId 仍保留供智能体；结果页不对用户展示类型名
- * - 每人最多重新测试 3 次（retestCount）；不支持重新生图
+ * H5 人生旅程进度
+ *
+ * 逻辑注释（产品口径）：
+ * 1) status=composing：已生图、未点「查看解读」→ 下次入口仍进成图页，直到用户主动看解读。
+ * 2) 每人仅可测试一次，不提供重新测试（MAX_RETEST=0；结果页按钮隐藏）。
+ *    进度仍按「授权手机号」维度落库（phoneE164）。
+ * 3) 不支持同一轮内「重新生图」。
+ * 4) patternId 写入进度供智能体使用，结果页不对用户展示类型名（展示 frontTheme）。
  */
 window.H5Progress = (function () {
-  const DEVICE_KEY = "xinhua_h5_device_id";
-  const MAX_RETEST = 3;
+  /** 每人仅测一次：不可重新测试 */
+  const MAX_RETEST = 0;
 
-  function deviceId() {
-    try {
-      let id = localStorage.getItem(DEVICE_KEY);
-      if (!id) {
-        id = "dev_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
-        localStorage.setItem(DEVICE_KEY, id);
-      }
-      return id;
-    } catch (e) {
-      return "dev_fallback";
+  /**
+   * 分桶：优先授权手机号；无真号时用会话 userId 占位并打日志口径注释。
+   * @param {object|string} sessionOrUserId H5Auth session 或历史 userId 字符串
+   */
+  function resolveBucket(sessionOrUserId) {
+    const s =
+      sessionOrUserId && typeof sessionOrUserId === "object"
+        ? sessionOrUserId
+        : window.H5Auth && window.H5Auth.getSession();
+
+    // —— 手机号维度（正式）——
+    if (s && s.phoneE164) {
+      return "phone_" + String(s.phoneE164).replace(/\D/g, "");
     }
+
+    // —— 真号未回填：会话占位（演示）；上线后禁止长期依赖 ——
+    if (s && s.userId) return "auth_" + s.userId;
+    if (typeof sessionOrUserId === "string" && sessionOrUserId) {
+      return "auth_" + sessionOrUserId;
+    }
+    return "auth_anon";
   }
 
-  function resolveBucket(userId) {
-    void userId;
-    return deviceId();
-  }
-
-  function key(userId) {
-    return "xinhua_h5_progress_" + resolveBucket(userId);
+  function key(sessionOrUserId) {
+    return "xinhua_h5_progress_" + resolveBucket(sessionOrUserId);
   }
 
   function empty() {
@@ -38,14 +47,15 @@ window.H5Progress = (function () {
       patternId: "",
       description: "",
       genCount: 0,
+      /** 已使用的重新测试次数（手机号维度）；首次完成后剩余 = MAX_RETEST - retestCount */
       retestCount: 0,
       updatedAt: null,
     };
   }
 
-  function get(userId) {
+  function get(sessionOrUserId) {
     try {
-      const raw = localStorage.getItem(key(userId));
+      const raw = localStorage.getItem(key(sessionOrUserId));
       if (!raw) return empty();
       return Object.assign(empty(), JSON.parse(raw));
     } catch (e) {
@@ -53,33 +63,37 @@ window.H5Progress = (function () {
     }
   }
 
-  function set(userId, data) {
-    const next = Object.assign(empty(), get(userId), data, {
+  function set(sessionOrUserId, data) {
+    const next = Object.assign(empty(), get(sessionOrUserId), data, {
       updatedAt: new Date().toISOString(),
     });
-    localStorage.setItem(key(userId), JSON.stringify(next));
+    localStorage.setItem(key(sessionOrUserId), JSON.stringify(next));
     return next;
   }
 
-  function retestLeft(userId) {
-    return Math.max(0, MAX_RETEST - (get(userId).retestCount || 0));
+  function retestLeft(sessionOrUserId) {
+    return Math.max(0, MAX_RETEST - (get(sessionOrUserId).retestCount || 0));
   }
 
-  function canRetest(userId) {
-    return retestLeft(userId) > 0;
+  function canRetest(sessionOrUserId) {
+    return retestLeft(sessionOrUserId) > 0;
   }
 
   /**
-   * 发起重新测试：增加 retestCount，清空当次旅程内容。
+   * 发起重新测试（计入手机号维度的 retestCount）
    * @returns {{ok:boolean, left:number, reason?:string}}
    */
-  function startRetest(userId) {
-    const cur = get(userId);
+  function startRetest(sessionOrUserId) {
+    const cur = get(sessionOrUserId);
     const used = cur.retestCount || 0;
     if (used >= MAX_RETEST) {
-      return { ok: false, left: 0, reason: "重新测试次数已用尽（每人最多 3 次）" };
+      return {
+        ok: false,
+        left: 0,
+        reason: "每人仅可测试一次，不支持重新测试",
+      };
     }
-    set(userId, {
+    set(sessionOrUserId, {
       status: "none",
       lockedDesc: "",
       imageUrl: "",
@@ -91,11 +105,10 @@ window.H5Progress = (function () {
     return { ok: true, left: MAX_RETEST - (used + 1) };
   }
 
-  /** 清空当次内容但保留重新测试计数（防绕过限额） */
-  function clear(userId) {
-    const used = get(userId).retestCount || 0;
-    localStorage.removeItem(key(userId));
-    if (used > 0) set(userId, { retestCount: used });
+  function clear(sessionOrUserId) {
+    const used = get(sessionOrUserId).retestCount || 0;
+    localStorage.removeItem(key(sessionOrUserId));
+    if (used > 0) set(sessionOrUserId, { retestCount: used });
   }
 
   return {
@@ -104,7 +117,7 @@ window.H5Progress = (function () {
     clear: clear,
     empty: empty,
     key: key,
-    deviceId: deviceId,
+    resolveBucket: resolveBucket,
     MAX_RETEST: MAX_RETEST,
     retestLeft: retestLeft,
     canRetest: canRetest,

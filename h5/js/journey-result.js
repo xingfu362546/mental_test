@@ -1,7 +1,14 @@
 /**
- * H5 旅程结果页
- * - 对用户：展示成图 + 探索文案；不展示模式类型名称
- * - 对智能体/进度：仍写入并保留 patternId（类型数据）
+ * H5 人生旅程结果页
+ *
+ * 逻辑注释（产品口径）：
+ * 1) 不向用户展示后台模式类型名；展示 frontTheme（参与者呈现主题）。
+ *    patternId / name 仍写入进度供智能体使用。
+ * 2) 每人仅可测试一次，不提供重新测试；结果页用「去6Q超级爸妈查看更多测评」替代用尽/重测按钮。
+ *    进度仍按「授权手机号」维度落库。
+ * 3) 「分享转发」= 转发微信小程序卡片（参考会话里小程序分享卡：顶栏名称/图标、标题 title、封面 imageUrl、底栏「小程序」）；
+ *    正式对接 onShareAppMessage / open-type=share，返回 { title, path, imageUrl }；
+ *    本 H5 原型仅 toast 占位，不走系统分享链接。
  */
 (function () {
   const session = window.H5Auth && window.H5Auth.requireLogin("login.html");
@@ -11,21 +18,30 @@
   const imgEl = document.getElementById("jh-compose-img");
   const descEl = document.getElementById("jh-desc");
   const nameEl = document.getElementById("jh-name");
+  const themeEl = document.getElementById("jh-theme");
   const arrangeEl = document.getElementById("jh-arrange");
   const posEl = document.getElementById("jh-positive");
   const watchEl = document.getElementById("jh-watch");
   const fbEl = document.getElementById("jh-feedback");
 
   const fallbackImage = "../assets/journey/journey-compose-demo.png";
-  const fallbackDesc = "模型将你画板上的旅伴与风景串联成一幅完整旅途（原型固定演示图）。";
+  const fallbackDesc =
+    "\u6a21\u578b\u5c06\u4f60\u753b\u677f\u4e0a\u7684\u65c5\u4f34\u4e0e\u98ce\u666f\u4e32\u8054\u6210\u4e00\u5e45\u5b8c\u6574\u65c5\u9014\uff08\u539f\u578b\u56fa\u5b9a\u6f14\u793a\u56fe\uff09\u3002";
   const fallbackPatternId = "j04";
+
+  // 小程序转发卡片字段（对齐 onShareAppMessage；封面正式应用测评/活动海报）
+  const MP_SHARE = {
+    title: "\u5fc3\u753b\u6d4b\u8bc4\u00b7\u4eba\u751f\u65c5\u7a0b",
+    path: "/pages/journey/entry",
+    imageUrl: "",
+  };
 
   let payload = null;
   try {
     payload = JSON.parse(sessionStorage.getItem("journeyPayload") || "null");
   } catch (e) {}
 
-  const saved = window.H5Progress.get(session.userId);
+  const saved = window.H5Progress.get(session);
   const imageUrl = (payload && payload.imageUrl) || saved.imageUrl || fallbackImage;
   const description =
     (payload && payload.description) || saved.description || saved.lockedDesc || fallbackDesc;
@@ -34,30 +50,37 @@
   imgEl.src = imageUrl;
   descEl.textContent = description;
 
+  function stripTypeName(text) {
+    if (!text) return text;
+    return String(text).replace(/\u300c[^\u300d]+\u300d/g, "\u8fd9\u6bb5\u65c5\u7a0b\u5b89\u6392");
+  }
+
   function render(id) {
     const p = patterns.find((x) => x.id === id) || patterns[0];
     if (!p) return;
-    // 类型名称不对用户展示；DOM 可保留空/隐藏，供调试或后续智能体侧读取
+    // 前台：只展示参与者呈现主题；后台类型名隐藏
+    if (themeEl) {
+      themeEl.textContent = p.frontTheme || "旅程中的探索主题";
+      themeEl.setAttribute("data-pattern-id", p.id || id);
+    }
     if (nameEl) {
       nameEl.textContent = "";
       nameEl.hidden = true;
       nameEl.setAttribute("data-pattern-id", p.id || id);
+      nameEl.setAttribute("data-pattern-name", p.name || "");
     }
-    arrangeEl.textContent = p.arrange || "—";
-    posEl.textContent = p.positive || "—";
-    watchEl.textContent = p.watch || "—";
-    // 开放式反馈不点名模式类型，避免用户看到类型标签
+    arrangeEl.textContent = p.arrange || "\u2014";
+    posEl.textContent = p.positive || "\u2014";
+    watchEl.textContent = p.watch || "\u2014";
     fbEl.textContent =
       p.feedbackNoType ||
-      (p.feedback
-        ? String(p.feedback).replace(/「[^」]+」/g, "这段旅程安排")
-        : "结合你的完整旅程图与描述，可以对照下面的探索线索，再结合真实感受与生活核实。这不是心理诊断。");
+      stripTypeName(p.feedback) ||
+      "\u7ed3\u5408\u4f60\u7684\u5b8c\u6574\u65c5\u7a0b\u56fe\u4e0e\u63cf\u8ff0\uff0c\u53ef\u4ee5\u5bf9\u7167\u4e0b\u9762\u7684\u63a2\u7d22\u7ebf\u7d22\uff0c\u518d\u7ed3\u5408\u771f\u5b9e\u611f\u53d7\u4e0e\u751f\u6d3b\u6838\u5b9e\u3002\u8fd9\u4e0d\u662f\u5fc3\u7406\u8bca\u65ad\u3002";
   }
 
   render(patternId);
 
-  // 进度/智能体侧仍保留类型 patternId
-  window.H5Progress.set(session.userId, {
+  window.H5Progress.set(session, {
     status: "completed",
     lockedDesc: saved.lockedDesc || (payload && payload.userText) || "",
     imageUrl: imageUrl,
@@ -68,73 +91,12 @@
   });
 
   const btnShare = document.getElementById("h5-share");
-  const btnRetest = document.getElementById("h5-retest");
-
-  function syncRetestBtn() {
-    if (!btnRetest) return;
-    const left = window.H5Progress.retestLeft(session.userId);
-    if (left <= 0) {
-      btnRetest.disabled = true;
-      btnRetest.textContent = "重新测试已用尽";
-    } else {
-      btnRetest.disabled = false;
-      btnRetest.textContent = "重新测试（还可 " + left + " 次）";
-    }
-  }
-  syncRetestBtn();
-
   if (btnShare) {
     btnShare.addEventListener("click", () => {
-      const shareUrl = location.href.split("?")[0].replace(/journey-result\.html.*/, "entry.html");
-      const shareText = "我完成了心画·人生旅程测评，一起来看看你的旅程安排吧";
-      if (navigator.share) {
-        navigator
-          .share({ title: "心画测评·人生旅程", text: shareText, url: shareUrl })
-          .catch(function () {
-            SixQDevice.toast("已取消分享");
-          });
-        return;
-      }
-      try {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(shareUrl).then(
-            function () {
-              SixQDevice.toast("分享链接已复制（演示）");
-            },
-            function () {
-              SixQDevice.toast("请长按复制链接分享（演示）");
-            }
-          );
-          return;
-        }
-      } catch (e) {}
-      SixQDevice.toast("请长按复制链接分享（演示）");
-    });
-  }
-
-  if (btnRetest) {
-    btnRetest.addEventListener("click", () => {
-      if (!window.H5Progress.canRetest(session.userId)) {
-        SixQDevice.toast("重新测试次数已用尽（每人最多 3 次）");
-        syncRetestBtn();
-        return;
-      }
-      const left = window.H5Progress.retestLeft(session.userId);
-      const ok = window.confirm(
-        "重新测试将清空当前解读（还可 " + left + " 次，用完不可再测）。是否继续？"
+      void MP_SHARE;
+      SixQDevice.toast(
+        "\u8bf7\u4f7f\u7528\u5c0f\u7a0b\u5e8f\u300c\u8f6c\u53d1\u300d\u5206\u4eab\u7ed9\u597d\u53cb\uff08\u539f\u578b\u5360\u4f4d\uff09"
       );
-      if (!ok) return;
-      const res = window.H5Progress.startRetest(session.userId);
-      if (!res.ok) {
-        SixQDevice.toast(res.reason || "无法重新测试");
-        syncRetestBtn();
-        return;
-      }
-      try {
-        sessionStorage.removeItem("journeyPayload");
-      } catch (e) {}
-      SixQDevice.toast("已开始重新测试，剩余 " + res.left + " 次");
-      location.href = "journey-guide.html";
     });
   }
 })();

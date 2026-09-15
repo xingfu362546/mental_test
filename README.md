@@ -4,17 +4,20 @@
 
 | 产品 | 版本 | 入口 |
 |------|------|------|
-| **心画测评H5版本** | **H5-v1.0.2**（当前） | [`h5/entry.html`](h5/entry.html) |
-| 心画测评H5版本 | H5-v1.0.1 / H5-v1.0.0 | 同上 |
+| **心画测评H5版本** | **H5-v1.0.3**（当前） | [`h5/entry.html`](h5/entry.html) |
+| 心画测评H5版本 | H5-v1.0.2 / H5-v1.0.1 / H5-v1.0.0 | 同上 |
 | **超级爸妈APP心画测评版本** | v1.0.4 | [`app-home.html`](app-home.html) |
 
 打开 [`index.html`](index.html) 查看版本功能清单。
 
-## 心画测评H5版本（H5-v1.0.2）
+## 心画测评H5版本（H5-v1.0.3）
 
 ```
 h5/entry.html → 每次强制 login（微信手机号授权 UI，无假号）
-  └─ 允许后 → guide / canvas / result（进度设备本地续测）
+  └─ 允许后 → guide / canvas / result
+       · 文案：知情说明、四段探索反馈、免责结尾
+       · 敏感内容 → risk_* 字段 + 温馨提示（停一般解析）
+       · 智能体提示词见 docs/dify-journey-llm-prompt.md
 ```
 
 特殊性见 `docs/FEATURES.md`（清单倒序，最新在上）。

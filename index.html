@@ -13,10 +13,11 @@
         <p class="nav-hero__eye">6Q MENTAL TEST · FEATURE BY VERSION</p>
         <h1>6Q 测评 · 版本功能清单</h1>
         <p>
-          版本清单<strong>倒序</strong>展示。当前最新：<strong>心画测评H5版本（H5-v1.0.2）</strong>；
+          版本清单<strong>倒序</strong>展示。当前最新：<strong>心画测评H5版本（H5-v1.0.3）</strong>；
           App 全量链路见<strong>超级爸妈APP心画测评版本（v1.0.4）</strong>。
         </p>
         <div class="nav-hero__links">
+          <a href="#h5v103">H5-v1.0.3</a>
           <a href="#h5v102">H5-v1.0.2</a>
           <a href="#h5v101">H5-v1.0.1</a>
           <a href="#h5v100">H5-v1.0.0</a>
@@ -34,7 +35,8 @@
       </header>
 
       <nav class="ver-jump" aria-label="版本跳转">
-        <a class="is-current" href="#h5v102">H5-v1.0.2</a>
+        <a class="is-current" href="#h5v103">H5-v1.0.3</a>
+        <a href="#h5v102">H5-v1.0.2</a>
         <a href="#h5v101">H5-v1.0.1</a>
         <a href="#h5v100">H5-v1.0.0</a>
         <a href="#flows">流程图</a>
@@ -237,10 +239,37 @@ flowchart LR
         </details>
       </section>
 
+      <article class="ver-card" id="h5v103">
+        <div class="ver-card__head">
+          <div>
+            <h2><span class="ver-badge">H5-v1.0.3</span> 心画测评H5版本（当前）</h2>
+            <p class="ver-card__meta">2026-09-15 · 线上 AI 文案与安全闸门</p>
+          </div>
+          <p class="ver-card__theme">知情/探索文案 · 四段结构 · frontTheme · 敏感闸门 · 仅测一次</p>
+        </div>
+        <div class="ver-mod">
+          <div class="ver-mod__head">
+            <h3>模块 · 文案与安全（本迭代）</h3>
+            <a href="h5/entry.html">打开演示 →</a>
+          </div>
+          <p class="ver-card__meta" style="margin:0 0 10px">
+            <strong>调整说明：</strong>对齐线上 AI 业务口径——文案/四段反馈、参与者呈现主题、敏感温馨提示与智能体提示词；每人仅测一次，结果页 CTA 改为跳转 6Q 超级爸妈。
+          </p>
+          <ul>
+            <li><strong>文案</strong>：引导页知情说明与情境措辞；成图页隐私提醒与「模拟呈现」说明；结果页四段标题与固定免责结尾</li>
+            <li><strong>象征</strong>：前台不公开海报式预设含义；模式名仍仅后台</li>
+            <li><strong>敏感闸门</strong>：语音/文本命中危机内容 → 开发字段 <code>risk_flag</code> 等 + 温馨提示弹层（可点「演示：敏感内容温馨提示」）</li>
+            <li><strong>智能体</strong>：更新 <code>docs/dify-journey-llm-prompt.md</code>（四段 <code>user_reply</code>、无标签/无导购、敏感停解析）</li>
+            <li><strong>呈现主题</strong>：结果页展示 20 模式对应的「参与者呈现主题」，不展示后台类型名</li>
+            <li><strong>次数/CTA</strong>：每人仅可测试一次；去掉重新测试/用尽；改为「去6Q超级爸妈查看更多测评」</li>
+          </ul>
+        </div>
+      </article>
+
       <article class="ver-card" id="h5v102">
         <div class="ver-card__head">
           <div>
-            <h2><span class="ver-badge">H5-v1.0.2</span> 心画测评H5版本（当前）</h2>
+            <h2><span class="ver-badge ver-badge--base">H5-v1.0.2</span> 心画测评H5版本</h2>
             <p class="ver-card__meta">2026-09-07 · 微信授权页体验</p>
           </div>
           <p class="ver-card__theme">微信手机号授权 UI · 无假手机号 · 每次进入重新授权</p>
@@ -253,8 +282,10 @@ flowchart LR
           <ul>
             <li><strong>授权页</strong>：对齐微信「手机号快速验证」布局（允许/拒绝），不展示模拟手机号</li>
             <li><strong>门禁</strong>：每次从入口进入均需重新授权；会话仅 sessionStorage</li>
-            <li><strong>进度</strong>：续测仍按设备本地分桶（真手机号接入后改为按号分桶）</li>
-            <li><strong>限额</strong>：取消重新生图；每人重新测试最多 3 次</li>
+            <li><strong>进度</strong>：按授权手机号维度保存进度；每人仅可测试一次</li>
+            <li><strong>续测态</strong>：已生图未解读 → 下次入口仍回成图页</li>
+            <li><strong>分享</strong>：转发小程序卡片（title / path / 封面）；H5 占位</li>
+            <li><strong>生图</strong>：取消重新生图</li>
           </ul>
         </div>
       </article>

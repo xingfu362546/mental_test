@@ -28,7 +28,7 @@
               </nav>
 
               <p class="jh-lead jh-lead--light">
-                用语音或文字讲清旅程安排；描述须包含<strong>猴子、小鸟、背包、蛇</strong>。确认后生成旅程图。
+                用语音或文字讲清旅程安排；须包含<strong>猴子、小鸟、背包、蛇</strong>。请勿填写真实姓名、电话、住址或其他可识别个人身份的信息。确认后生成心画。
               </p>
 
               <div class="jh-lawn" aria-label="草坪场景">
@@ -41,7 +41,7 @@
                   <div class="jh-board-empty" id="jh-board-empty">确认描述并生成后，旅程图将出现在这里</div>
                   <div class="jh-board-wait" id="jh-board-wait" hidden>
                     <div class="jh-compose__spinner" aria-hidden="true"></div>
-                    <p id="jh-board-wait-tip">模型正在绘制旅程图…</p>
+                    <p id="jh-board-wait-tip">AI 正在根据您确认的安排生成心画。画面只是对您描述内容的模拟呈现，不作为解读的唯一依据。</p>
                   </div>
                   <img class="jh-board-img" id="jh-board-img" alt="生成的旅程图" hidden />
                 </div>
@@ -50,7 +50,12 @@
 
               <section class="jh-panel jh-panel--h5-voice" id="jh-step-input">
                 <strong class="jh-h5-voice-title">讲述你的旅程</strong>
-                <p class="hint jh-h5-voice-hint">须包含四位旅伴：猴子、小鸟、背包、蛇。演示不真实录音。</p>
+                <p class="hint jh-h5-voice-hint">
+                  须包含四位旅伴：猴子、小鸟、背包、蛇。可说说谁在前、谁在身边、谁负责背包，以及您的感受。演示不真实录音。
+                </p>
+                <p class="hint jh-h5-risk-demo">
+                  <button type="button" class="jh-h5-type-toggle" id="jh-demo-risk">演示：敏感内容温馨提示</button>
+                </p>
 
                 <div class="jh-h5-mic-wrap">
                   <button
@@ -86,14 +91,29 @@
               </section>
 
               <section class="jh-panel" id="jh-step-confirm-img" hidden>
-                <strong>请确认画板上的旅程图</strong>
-                <p class="hint" style="margin:6px 0 0">描述已锁定；本版不支持重新生成图片。</p>
+                <strong>请确认画板上的心画</strong>
+                <p class="hint" style="margin:6px 0 0">
+                  画面仅为对您描述的模拟呈现，不作为解读的唯一依据。描述已锁定；本版不支持重新生成图片。
+                </p>
                 <div class="jh-actions" style="margin-top:10px">
                   <button type="button" class="xh-btn" id="jh-next">确认并查看解读</button>
                 </div>
               </section>
             </main>
             <div class="ios-home-indicator"></div>
+          </div>
+
+          <!-- E：敏感内容温馨提示（开发可读 risk 字段） -->
+          <div class="jh-risk-overlay" id="jh-risk-overlay" hidden>
+            <div class="jh-risk-card" role="dialog" aria-labelledby="jh-risk-title">
+              <h2 class="jh-risk-title" id="jh-risk-title">温馨提示</h2>
+              <p class="jh-risk-body" id="jh-risk-body"></p>
+              <div class="jh-risk-actions">
+                <button type="button" class="xh-btn" id="jh-risk-help">查看紧急求助方式</button>
+                <button type="button" class="xh-btn xh-btn--ghost" id="jh-risk-exit">暂停并退出</button>
+              </div>
+              <p class="jh-risk-dev" id="jh-risk-dev" hidden></p>
+            </div>
           </div>
 
           <div class="jh-hold-overlay" id="jh-hold-overlay" hidden>
