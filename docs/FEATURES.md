@@ -50,7 +50,7 @@ flowchart TD
 |------|--------|
 | 范围 | 本版功能说明仅留资；心画与官网各一个入口 |
 | 心画入口 | [`h5/journey-result.html?demo=1`](../h5/journey-result.html?demo=1) 直接进入已生成的解读页（演示数据，跳过授权/引导/成图） |
-| 官网入口 | [`site-home/index.html`](../site-home/index.html) |
+| 官网入口 | [`site-home/index.html`](../site-home/index.html) · 课程页 [`site-home/courses.html`](../site-home/courses.html) |
 | 字段 | 姓氏选填；称呼单选先生/女士（默认先生）；方向单选且默认第一项；选「其他」必填说明；手机必填 |
 | 安全 | 心画危机态不展示留资 |
 | 数据 | 本地仅存留资字段，不绑测评上下文 |

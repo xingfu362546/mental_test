@@ -1,10 +1,9 @@
 /**
- * 官网首页复刻 · 留资
- * 口径对齐 H5-v1.0.4：自愿、兴趣多选+其他必填、手机可选校验、本地落库锁定。
- * 存储 key：journey_lead_home_v1（与 H5 结果页 key 分开，避免互相覆盖）
+ * 官网留资（首页 / 课程页共用）
+ * 手机必填；称呼与方向单选并默认第一项；选「其他」须填写说明。
+ * 存储 key 由页面 data-lead-key 指定，避免互相覆盖。
  */
 (function () {
-  const LEAD_KEY = "journey_lead_home_v1";
   const root = document.getElementById("home-lead");
   const surnameInput = document.getElementById("home-lead-surname");
   const titleWrap = document.getElementById("home-lead-titles");
@@ -15,6 +14,7 @@
   const errEl = document.getElementById("home-lead-error");
   const btnSubmit = document.getElementById("home-lead-submit");
   const thanksEl = document.getElementById("home-lead-thanks");
+  const LEAD_KEY = (root && root.getAttribute("data-lead-key")) || "journey_lead_home_v1";
 
   if (!root || !btnSubmit) return;
 
@@ -194,7 +194,7 @@
 
     const record = {
       version: 1,
-      source: "6qedu-home-proto",
+      source: (root.getAttribute("data-lead-source") || "6qedu-home"),
       submittedAt: new Date().toISOString(),
       surname: surnameInput ? String(surnameInput.value || "").trim() : "",
       title: selectedTitle(),
