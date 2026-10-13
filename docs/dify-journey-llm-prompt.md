@@ -38,12 +38,25 @@ journey 结构匹配：{{journeyDescription}}
 - matched_terms 列出触发词（简短）
 - primary=null；interpretation=null；user_reply=null
 - need_more_info=false；kb_unavailable=false
-- crisis_message 使用下面固定口径（可轻微顺句，不得删减核心意思）：
-  「您刚才提到的内容已经超出了趣味探索的范围。现在最重要的不是继续分析这幅画，而是先确认您和相关人员是否安全。如果您或他人正面临立即危险，请尽快联系当地紧急救援服务，或请身边可信任的人陪伴您。您也可以寻求公益心理危机服务热线帮助。」
-- 禁止继续做模式匹配、禁止生成心画解读四段、禁止任何导购或服务推销
-- 说明：你只能识别并提示风险，不能独立承担危机干预
+- crisis_message 使用下面固定口径（可轻微顺句，不得删减核心意思与热线号码）：
+  「您刚才提到的内容已经超出了趣味探索的范围。现在最重要的不是继续分析这幅画，而是先确认您和相关人员是否安全。如果您或他人正面临立即危险，请尽快联系当地紧急救援服务，或请身边可信任的人陪伴您。
 
-未命中敏感内容时：risk_flag=false；stop_general_analysis=false；risk_categories=[]；matched_terms=[]；crisis_message=""。
+  您也可以拨打以下心理援助热线寻求帮助：
+  · 全国统一心理援助热线：12356
+  · 广东省24小时心理援助热线：020-12320-5
+  · 广东共青团12355青少年服务热线：12355
+  · 全国24小时危机干预公益热线：4001619995」
+- help_hotlines 必须原样输出下列结构化热线（供开发直接展示；不得增删、改号、改名；与 crisis_message 中热线一致）：
+  [
+    {"name": "全国统一心理援助热线", "number": "12356", "region": "全国", "priority": 1, "note": "全国统一"},
+    {"name": "广东省24小时心理援助热线", "number": "020-12320-5", "region": "广东", "priority": 2, "note": "其他可选"},
+    {"name": "广东共青团12355青少年服务热线", "number": "12355", "region": "广东", "priority": 3, "note": "其他可选"},
+    {"name": "全国24小时危机干预公益热线", "number": "4001619995", "region": "全国", "priority": 4, "note": "其他可选"}
+  ]
+- 禁止继续做模式匹配、禁止生成心画解读四段、禁止任何导购或服务推销
+- 说明：你只能识别并提示风险，不能独立承担危机干预；热线展示由前端/客户端读取 help_hotlines 完成
+
+未命中敏感内容时：risk_flag=false；stop_general_analysis=false；risk_categories=[]；matched_terms=[]；crisis_message=""；help_hotlines=[]。
 
 # 任务（仅当 risk_flag=false）
 根据这段文字描述，从【知识库检索结果】中选出最贴近的一种模式（后台参考）；匹配成功后生成面向参与者的四段探索反馈，且必须纳入「参与者本人（我）」的位置与关系。
@@ -217,6 +230,7 @@ kb_unavailable 或 need_more_info 为 true 时，interpretation 与 user_reply �
   "matched_terms": [],
   "stop_general_analysis": false,
   "crisis_message": "",
+  "help_hotlines": [],
   "kb_unavailable": false,
   "fail_reason": "",
   "need_more_info": false,
@@ -251,7 +265,8 @@ kb_unavailable 或 need_more_info 为 true 时，interpretation 与 user_reply �
 
 约束：
 - input_mode 固定为 "text_only"
-- risk_flag=true 时：stop_general_analysis 必须为 true；primary / interpretation / user_reply 必须为 null；crisis_message 不得为空
+- risk_flag=true 时：stop_general_analysis 必须为 true；primary / interpretation / user_reply 必须为 null；crisis_message 不得为空；help_hotlines 必须为上述 4 条完整热线（不得为空数组）
+- risk_flag=false 时：help_hotlines 必须为 []
 - kb_unavailable=true 时，primary 必须为 null；need_more_info 必须为 false；interpretation 与 user_reply 必须为 null
 - need_more_info=true 时，primary 必须为 null，alternatives 为 []；missing 不得为空；interpretation 与 user_reply 必须为 null
 - primary.patternId 必须出现在本次检索结果中
@@ -259,6 +274,7 @@ kb_unavailable 或 need_more_info 为 true 时，interpretation 与 user_reply �
 - user_reply 四段不得出现模式名称、编号、「您属于」类归类句、导购句
 - description_read 禁止出现「理解为「××型」」
 - alternatives / discarded 可为空数组，但键必须存在
+- help_hotlines 键必须始终存在；条目字段固定为 name / number / region / priority / note
 ```
 
 ---
@@ -272,8 +288,8 @@ kb_unavailable 或 need_more_info 为 true 时，interpretation 与 user_reply �
 {{journeyDescription}}
 
 处理顺序：
-1) 先做敏感内容安全闸门；若命中则只输出 risk_* 与 crisis_message，停止一般解析。
-2) 否则做模式匹配（后台）；再生成面向参与者的 user_reply 四段（画面观察 / 可能的探索线索 / 值得留意的积极资源 / 给自己的觉察提示），不得展示模式名称；禁止导购与负面定论。
+1) 先做敏感内容安全闸门；若命中则只输出 risk_*、crisis_message 与 help_hotlines（含全国/广东热线结构化列表，供开发展示），停止一般解析。
+2) 否则做模式匹配（后台）；再生成面向参与者的 user_reply 四段（画面观察 / 可能的探索线索 / 值得留意的积极资源 / 给自己的觉察提示），不得展示模式名称；禁止导购与负面定论；help_hotlines=[]。
 输出唯一 JSON。
 ```
 
@@ -298,7 +314,25 @@ kb_unavailable 或 need_more_info 为 true 时，interpretation 与 user_reply �
 | `risk_categories` | 类别数组：self_harm / harm_others / domestic_violence / abuse / despair |
 | `matched_terms` | 触发词 |
 | `stop_general_analysis` | true 时前端停止成图/一般解读，改弹温馨提示 |
-| `crisis_message` | 给用户的危机温馨提示正文 |
+| `crisis_message` | 给用户的危机温馨提示正文（**须内含上述 4 条热线名称与号码**） |
+| `help_hotlines` | 热线列表（数组）。`risk_flag=true` 时必填，供前端直接渲染；`risk_flag=false` 时为 `[]` |
+
+`help_hotlines[]` 单条字段：
+
+| 字段 | 含义 | 示例 |
+|------|------|------|
+| `name` | 热线名称 | 全国统一心理援助热线 |
+| `number` | 拨号号码（原样展示/拨打） | `12356` |
+| `region` | 适用范围 | 全国 / 广东 |
+| `priority` | 展示排序（数字越小越靠前） | `1` |
+| `note` | 分组备注 | 全国统一 / 其他可选 |
+
+敏感命中时固定 4 条（开发应按 `priority` 排序展示）：
+
+1. 全国统一心理援助热线 · `12356`（全国统一）
+2. 广东省24小时心理援助热线 · `020-12320-5`（其他可选）
+3. 广东共青团12355青少年服务热线 · `12355`（其他可选）
+4. 全国24小时危机干预公益热线 · `4001619995`（其他可选）
 
 H5 原型会把同名字段写入 `sessionStorage.journeyRiskPayload`，便于联调。
 
@@ -326,6 +360,10 @@ H5 原型会把同名字段写入 `sessionStorage.journeyRiskPayload`，便于�
 
 ```text
 {{LLM.crisis_message}}
+
+【求助热线】（前端优先用 help_hotlines 结构化渲染，勿只依赖纯文本）
+- {{LLM.help_hotlines[0].name}}：{{LLM.help_hotlines[0].number}}
+- …
 ```
 
 不要把 `primary.name` / patternId 拼进用户可见回复。
@@ -336,7 +374,7 @@ H5 原型会把同名字段写入 `sessionStorage.journeyRiskPayload`，便于�
 
 | 输入 | 预期 |
 |------|------|
-| `我想结束这一切，不想再活了。…` | risk_flag=true；stop_general_analysis=true；无 primary / user_reply |
+| `我想结束这一切，不想再活了。…` | risk_flag=true；stop_general_analysis=true；无 primary / user_reply；`help_hotlines` 含 12356 等 4 条 |
 | `我和猴子一起走，心里有点不安。` | need_more_info（缺鸟/包/蛇） |
 | `猴子背着包走在前面，蛇和小鸟在身后跟随` | primary≈j10/j04；user_reply 无模式名 |
 | `猴子走在最前面，我跟在后面，小鸟飞在前方，背包在脚边，蛇跟在最后。` | primary≈j04；participant_role=我在后方跟随 |

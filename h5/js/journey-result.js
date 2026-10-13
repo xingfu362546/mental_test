@@ -9,6 +9,20 @@
  * 3) 「分享转发」= 转发微信小程序卡片（参考会话里小程序分享卡：顶栏名称/图标、标题 title、封面 imageUrl、底栏「小程序」）；
  *    正式对接 onShareAppMessage / open-type=share，返回 { title, path, imageUrl }；
  *    本 H5 原型仅 toast 占位，不走系统分享链接。
+ * 4) 留资（H5-v1.0.4）：非危机完整解读后、分享/CTA 前；自愿选填+提交；
+ *    方向单选「亲子沟通/情绪管理/伴侣关系/其他」；称呼单选「先生/女士/家长」；勾「其他」必填自由文；
+ *    手机手填，可预填授权号可改；至少手机或兴趣一项；
+ *    用途一句+提交即同意联系；成功 toast + localStorage +「已收到」锁定；
+ *    危机态（journeyRiskPayload.risk_flag）整块隐藏；随单仅兴趣+手机，不绑测评上下文。
+ *
+ * ——— 实现 / 验收清单（交付对照，与 docs/FEATURES.md H5-v1.0.4 同步）———
+ * [ ] F240 区块位置：解读区之后、分享/去超级爸妈之前
+ * [ ] F241 危机态：risk_flag=true 时 #jh-lead 不展示（演示按钮可验）
+ * [ ] F242 方向单选 +「其他」展开；称呼单选；placeholder 为关心的课程/方向；勾其他未填不可提
+ * [ ] F243 手机可预填 session.phoneE164、可改；填了须 11 位 1 开头
+ * [ ] F244 全空不可提；只兴趣或只手机均可提
+ * [ ] F245 成功 toast + localStorage(journey_lead_v1) + 按钮「已收到，谢谢你」只读
+ * [ ] F246 再进结果页恢复已提交态；footer CTA 仍可点；不写 patternId/frontTheme
  */
 (function () {
   const session = window.H5Auth && window.H5Auth.requireLogin("login.html");
@@ -99,4 +113,248 @@
       );
     });
   }
+
+  /* ——— 留资 ——— */
+  const LEAD_KEY = "journey_lead_v1";
+  const leadRoot = document.getElementById("jh-lead");
+  const surnameInput = document.getElementById("jh-lead-surname");
+  const titleWrap = document.getElementById("jh-lead-titles");
+  const chipWrap = document.getElementById("jh-lead-chips");
+  const otherWrap = document.getElementById("jh-lead-other");
+  const otherInput = document.getElementById("jh-lead-other-text");
+  const phoneInput = document.getElementById("jh-lead-phone");
+  const errEl = document.getElementById("jh-lead-error");
+  const btnSubmit = document.getElementById("jh-lead-submit");
+  const btnDemoCrisis = document.getElementById("jh-lead-demo-crisis");
+  const thanksEl = document.getElementById("jh-lead-thanks");
+
+  function readRiskFlag() {
+    try {
+      const risk = JSON.parse(sessionStorage.getItem("journeyRiskPayload") || "null");
+      return !!(risk && risk.risk_flag);
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function readLead() {
+    try {
+      const raw = localStorage.getItem(LEAD_KEY);
+      if (!raw) return null;
+      const data = JSON.parse(raw);
+      if (!data || !data.submittedAt) return null;
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function writeLead(data) {
+    localStorage.setItem(LEAD_KEY, JSON.stringify(data));
+  }
+
+  function showError(msg) {
+    if (!errEl) return;
+    if (!msg) {
+      errEl.hidden = true;
+      errEl.textContent = "";
+      errEl.classList.remove("is-shake");
+      return;
+    }
+    errEl.hidden = false;
+    errEl.textContent = msg;
+    errEl.classList.remove("is-shake");
+    // 强制重启动画
+    void errEl.offsetWidth;
+    errEl.classList.add("is-shake");
+  }
+
+  function selectedTags() {
+    if (!chipWrap) return [];
+    return Array.prototype.map
+      .call(chipWrap.querySelectorAll(".jh-lead__chip.is-on"), function (el) {
+        return el.getAttribute("data-tag") || "";
+      })
+      .filter(Boolean);
+  }
+
+  function selectedTitle() {
+    if (!titleWrap) return "";
+    const on = titleWrap.querySelector(".jh-lead__chip.is-on");
+    return on ? on.getAttribute("data-title") || "" : "";
+  }
+
+  function setChipOn(chip, on) {
+    chip.classList.toggle("is-on", on);
+    chip.setAttribute("aria-pressed", on ? "true" : "false");
+  }
+
+  /** 同一组内只保留当前项（单选） */
+  function selectOnly(wrap, chip, attr) {
+    Array.prototype.forEach.call(wrap.querySelectorAll(".jh-lead__chip"), function (el) {
+      setChipOn(el, el === chip);
+    });
+    void attr;
+  }
+
+  function syncOtherVisibility() {
+    const on = selectedTags().indexOf("其他") >= 0;
+    if (otherWrap) {
+      otherWrap.classList.toggle("is-open", on);
+      otherWrap.setAttribute("aria-hidden", on ? "false" : "true");
+    }
+    if (!on && otherInput && !leadRoot.classList.contains("is-done")) {
+      otherInput.value = "";
+    }
+  }
+
+  function applyDone(data) {
+    if (!leadRoot || !btnSubmit) return;
+    leadRoot.classList.add("is-done");
+    leadRoot.hidden = false;
+    if (titleWrap) {
+      Array.prototype.forEach.call(titleWrap.querySelectorAll(".jh-lead__chip"), function (chip) {
+        setChipOn(chip, chip.getAttribute("data-title") === (data.title || ""));
+      });
+    }
+    if (chipWrap) {
+      Array.prototype.forEach.call(chipWrap.querySelectorAll(".jh-lead__chip"), function (chip) {
+        const tag = chip.getAttribute("data-tag");
+        const on = (data.interests || []).indexOf(tag) >= 0;
+        setChipOn(chip, on);
+      });
+    }
+    syncOtherVisibility();
+    if (surnameInput) {
+      surnameInput.value = data.surname || "";
+      surnameInput.readOnly = true;
+    }
+    if (otherInput) otherInput.value = data.otherText || "";
+    if (phoneInput) {
+      phoneInput.value = data.phone || "";
+      phoneInput.readOnly = true;
+    }
+    if (otherInput) otherInput.readOnly = true;
+    btnSubmit.textContent = "已收到，谢谢你";
+    btnSubmit.disabled = true;
+    if (thanksEl) thanksEl.hidden = false;
+    showError("");
+  }
+
+  function applyIdle() {
+    if (!leadRoot || !btnSubmit) return;
+    leadRoot.classList.remove("is-done");
+    leadRoot.hidden = false;
+    if (phoneInput) {
+      phoneInput.readOnly = false;
+      if (!phoneInput.value && session.phoneE164) {
+        phoneInput.value = String(session.phoneE164).replace(/\D/g, "").slice(-11);
+      }
+    }
+    if (surnameInput) surnameInput.readOnly = false;
+    if (otherInput) otherInput.readOnly = false;
+    btnSubmit.textContent = "提交给我";
+    btnSubmit.disabled = false;
+    if (thanksEl) thanksEl.hidden = true;
+  }
+
+  function hideLead() {
+    if (leadRoot) leadRoot.hidden = true;
+  }
+
+  function mountLead() {
+    if (!leadRoot) return;
+    if (readRiskFlag()) {
+      hideLead();
+      return;
+    }
+    const existing = readLead();
+    if (existing) {
+      applyDone(existing);
+      return;
+    }
+    applyIdle();
+  }
+
+  if (titleWrap) {
+    titleWrap.addEventListener("click", function (ev) {
+      if (leadRoot.classList.contains("is-done")) return;
+      const chip = ev.target.closest(".jh-lead__chip");
+      if (!chip || !titleWrap.contains(chip)) return;
+      selectOnly(titleWrap, chip, "data-title");
+      showError("");
+    });
+  }
+
+  if (chipWrap) {
+    chipWrap.addEventListener("click", function (ev) {
+      if (leadRoot.classList.contains("is-done")) return;
+      const chip = ev.target.closest(".jh-lead__chip");
+      if (!chip || !chipWrap.contains(chip)) return;
+      selectOnly(chipWrap, chip, "data-tag");
+      syncOtherVisibility();
+      showError("");
+      if (chip.getAttribute("data-tag") === "其他" && otherInput) {
+        setTimeout(function () {
+          otherInput.focus();
+        }, 220);
+      }
+    });
+  }
+
+  if (btnSubmit) {
+    btnSubmit.addEventListener("click", function () {
+      if (leadRoot.classList.contains("is-done") || btnSubmit.disabled) return;
+
+      const interests = selectedTags();
+      const otherText = otherInput ? String(otherInput.value || "").trim() : "";
+      const phone = phoneInput ? String(phoneInput.value || "").replace(/\D/g, "") : "";
+
+      if (!interests.length && !phone) {
+        showError("兴趣或手机留一项就好；现在也可以先跳过");
+        return;
+      }
+      if (interests.indexOf("其他") >= 0 && !otherText) {
+        showError("选了「其他」的话，麻烦写一句你关心的方向");
+        return;
+      }
+      if (phone && !/^1\d{10}$/.test(phone)) {
+        showError("手机号好像不太对，麻烦再看一眼");
+        return;
+      }
+
+      const record = {
+        version: 1,
+        submittedAt: new Date().toISOString(),
+        surname: surnameInput ? String(surnameInput.value || "").trim() : "",
+        title: selectedTitle(),
+        interests: interests,
+        otherText: interests.indexOf("其他") >= 0 ? otherText : "",
+        phone: phone,
+      };
+      writeLead(record);
+      applyDone(record);
+      SixQDevice.toast("收到了，谢谢。客服会在合适的时候联系你", 2200);
+    });
+  }
+
+  if (btnDemoCrisis) {
+    btnDemoCrisis.addEventListener("click", function () {
+      try {
+        sessionStorage.setItem(
+          "journeyRiskPayload",
+          JSON.stringify({
+            risk_flag: true,
+            stop_general_analysis: true,
+            risk_categories: ["demo"],
+            tip_body: "演示危机态：结果页应隐藏留资区",
+          })
+        );
+      } catch (e) {}
+      hideLead();
+      SixQDevice.toast("已模拟危机态，留资已隐藏");
+    });
+  }
+
+  mountLead();
 })();

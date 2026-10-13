@@ -13,10 +13,11 @@
         <p class="nav-hero__eye">6Q MENTAL TEST · FEATURE BY VERSION</p>
         <h1>6Q 测评 · 版本功能清单</h1>
         <p>
-          版本清单<strong>倒序</strong>展示。当前最新：<strong>心画测评H5版本（H5-v1.0.3）</strong>；
+          版本清单<strong>倒序</strong>展示。当前最新：<strong>心画测评H5版本（H5-v1.0.4）</strong>；
           App 全量链路见<strong>超级爸妈APP心画测评版本（v1.0.4）</strong>。
         </p>
         <div class="nav-hero__links">
+          <a href="#h5v104">H5-v1.0.4</a>
           <a href="#h5v103">H5-v1.0.3</a>
           <a href="#h5v102">H5-v1.0.2</a>
           <a href="#h5v101">H5-v1.0.1</a>
@@ -35,7 +36,8 @@
       </header>
 
       <nav class="ver-jump" aria-label="版本跳转">
-        <a class="is-current" href="#h5v103">H5-v1.0.3</a>
+        <a class="is-current" href="#h5v104">H5-v1.0.4</a>
+        <a href="#h5v103">H5-v1.0.3</a>
         <a href="#h5v102">H5-v1.0.2</a>
         <a href="#h5v101">H5-v1.0.1</a>
         <a href="#h5v100">H5-v1.0.0</a>
@@ -239,17 +241,44 @@ flowchart LR
         </details>
       </section>
 
+      <article class="ver-card" id="h5v104">
+        <div class="ver-card__head">
+          <div>
+            <h2><span class="ver-badge">H5-v1.0.4</span> 心画测评H5版本（当前）</h2>
+            <p class="ver-card__meta">2026-10-12 · 结果页自愿留资</p>
+          </div>
+          <p class="ver-card__theme">自愿兴趣+手机 · 诚恳文案 · 危机隐藏 · 本地已提交</p>
+        </div>
+        <div class="ver-mod">
+          <div class="ver-mod__head">
+            <h3>模块 · 结果页留资（本迭代）</h3>
+            <a href="h5/journey-result.html">打开结果页 →</a>
+          </div>
+          <p class="ver-card__meta" style="margin:0 0 10px">
+            <strong>调整说明：</strong>四段解读后增加自愿留资；危机态隐藏；成功本地落库锁定。验收清单见 <code>docs/FEATURES.md</code> H5-v1.0.4 与 <code>h5/js/journey-result.js</code> 文件头注释。
+          </p>
+          <ul>
+            <li><strong>位置</strong>：解读 → 留资 → 分享 / 去6Q超级爸妈</li>
+            <li><strong>字段</strong>：姓氏选填 + 称呼单选（先生/女士/家长）+ 方向单选（含「其他」必填说明）+ 手机（可预填可改）；至少方向或手机一项</li>
+            <li><strong>文案</strong>：诚恳选填；用途说明；提交即同意联系；成功致谢</li>
+            <li><strong>危机</strong>：<code>risk_flag</code> 为真时隐藏；可用「演示：危机态」验收</li>
+            <li><strong>数据</strong>：<code>journey_lead_v1</code> 仅兴趣+手机，不绑测评上下文</li>
+            <li><strong>官网复刻</strong>：对照 6qedu.com 首页插入同口径留资 → <a href="site-home/index.html">site-home/index.html</a></li>
+          </ul>
+        </div>
+      </article>
+
       <article class="ver-card" id="h5v103">
         <div class="ver-card__head">
           <div>
-            <h2><span class="ver-badge">H5-v1.0.3</span> 心画测评H5版本（当前）</h2>
+            <h2><span class="ver-badge ver-badge--base">H5-v1.0.3</span> 心画测评H5版本</h2>
             <p class="ver-card__meta">2026-09-15 · 线上 AI 文案与安全闸门</p>
           </div>
           <p class="ver-card__theme">知情/探索文案 · 四段结构 · frontTheme · 敏感闸门 · 仅测一次</p>
         </div>
         <div class="ver-mod">
           <div class="ver-mod__head">
-            <h3>模块 · 文案与安全（本迭代）</h3>
+            <h3>模块 · 文案与安全</h3>
             <a href="h5/entry.html">打开演示 →</a>
           </div>
           <p class="ver-card__meta" style="margin:0 0 10px">

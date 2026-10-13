@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>6Q教育｜官网首页复刻（含留资）</title>
+    <link rel="stylesheet" href="home.css" />
+    <!--
+      原型说明（对照 https://www.6qedu.com/）
+      - 复刻：顶栏 / Hero / 数据 / 企业荣誉 / 创始人 / 核心课程 / 合作平台 / 页脚（精简）
+      - 新增：数据区与企业荣誉之间插入自愿留资（与 H5-v1.0.4 同口径）
+      - 验收：见页面底部「原型注释」与 docs/FEATURES.md H5-v1.0.4 留资清单
+    -->
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="#">
+          <span class="brand__mark" aria-hidden="true"></span>
+          <span class="brand__text">6Q教育</span>
+        </a>
+        <nav class="site-nav" aria-label="主导航">
+          <a class="is-current" href="#">首页</a>
+          <a href="#">关于6Q</a>
+          <a href="#">6Q课程</a>
+          <a href="#">6Q导师</a>
+          <a href="#">6Q文章</a>
+          <a href="#">6Q测评</a>
+          <a href="#">加入我们</a>
+          <a href="#">6Q工作台</a>
+          <a href="#">6Q官方回复</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero">
+          <div class="hero__dots" aria-hidden="true">
+            <i></i><i></i><i></i><i></i>
+          </div>
+          <h1 class="hero__title">学情商<span>◎</span>在<span class="hero__brand">6Q</span></h1>
+          <a class="hero__cta" href="#courses">了解6Q课程!</a>
+          <p class="hero__sub">6Q教育 — 专注家庭教育与情商教育</p>
+        </section>
+
+        <section class="stats" aria-label="关键数据">
+          <article class="stat">
+            <div class="stat__icon stat__icon--g" aria-hidden="true"></div>
+            <p class="stat__num"><strong>20</strong> 年</p>
+            <p class="stat__desc">专业家庭教育品牌</p>
+          </article>
+          <article class="stat">
+            <div class="stat__icon stat__icon--p" aria-hidden="true"></div>
+            <p class="stat__num"><strong>100</strong> 万+</p>
+            <p class="stat__desc">家庭</p>
+          </article>
+          <article class="stat">
+            <div class="stat__icon stat__icon--r" aria-hidden="true"></div>
+            <p class="stat__num"><strong>120</strong> +市</p>
+            <p class="stat__desc">线下课程传播至</p>
+          </article>
+          <article class="stat">
+            <div class="stat__icon stat__icon--g" aria-hidden="true"></div>
+            <p class="stat__num"><strong>6,700</strong> +</p>
+            <p class="stat__desc">6Q导师数量</p>
+          </article>
+          <article class="stat">
+            <div class="stat__icon stat__icon--y" aria-hidden="true"></div>
+            <p class="stat__num"><strong>19,900</strong> +名</p>
+            <p class="stat__desc">赋能教师数量</p>
+          </article>
+        </section>
+
+        <section class="honors" id="honors">
+          <h2 class="section-title"><span aria-hidden="true">❝</span>企业荣誉<span aria-hidden="true">❞</span></h2>
+          <div class="honors__row">
+            <div class="honors__media">
+              <div class="honors__video" aria-label="荣誉视频占位">
+                <span>▶ 荣誉短片（原型占位）</span>
+              </div>
+              <a class="honors__btn" href="#">查看所有荣誉 →</a>
+            </div>
+            <ul class="honors__list">
+              <li>2024年度家庭教育榜样品牌（央广网评选）</li>
+              <li>K12转型升级优质教育品牌（2021TOWER教育创新大会评选）</li>
+              <li>2020年度中国家庭教育领军品牌（腾讯教育评选）</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="founders">
+          <h2 class="section-title">6Q创始人</h2>
+          <div class="founders__row">
+            <article class="founder">
+              <div class="founder__avatar" aria-hidden="true">刘</div>
+              <div>
+                <h3>6Q刘中良</h3>
+                <p>中国6Q教育体系创始人 · 深耕家庭教育 20 年</p>
+              </div>
+            </article>
+            <article class="founder">
+              <div class="founder__avatar founder__avatar--2" aria-hidden="true">汤</div>
+              <div>
+                <h3>6Q汤爱武</h3>
+                <p>中国6Q教育体系创始人之一 · 深耕家庭教育 20 年</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="courses" id="courses">
+          <h2 class="section-title">6Q核心课程</h2>
+          <p class="courses__tagline">简单 · 落地 · 高效 · 系统 · 原创</p>
+          <div class="courses__grid">
+            <article class="course"><h3>高RQ智慧父母</h3><p>提升父母RQ，升级财富思维，赋能家庭财商。</p></article>
+            <article class="course"><h3>青少年6Q领袖营</h3><p>6天6夜沉浸式训练+家庭同步，塑造领袖力。</p></article>
+            <article class="course"><h3>高AQ智慧父母</h3><p>提升父母AQ，协助孩子迈上人生成长捷径。</p></article>
+            <article class="course"><h3>高CQ智慧父母</h3><p>做有趣父母，保护与激发孩子创造力。</p></article>
+            <article class="course"><h3>高IQ智慧父母</h3><p>情绪稳定又懂方法，协助孩子轻松高效学习。</p></article>
+            <article class="course"><h3>高SQ智慧父母</h3><p>诵经·悟道·执中，装好6Q总原则。</p></article>
+          </div>
+        </section>
+
+        <section class="partners" aria-label="合作平台">
+          <header class="partners__head">
+            <h2>合作平台</h2>
+            <span>多家平台认可</span>
+          </header>
+          <div class="partners__line" aria-hidden="true"><i></i></div>
+          <ul class="partners__grid">
+            <li class="partner"><span class="partner__mark partner__mark--seal">清</span><span class="partner__name">清华大学社会科学学院<br /><small>School of Social Sciences, Tsinghua University</small></span></li>
+            <li class="partner"><span class="partner__mark partner__mark--cnr">央</span><span class="partner__name">央广网<br /><small>CNR.CN</small></span></li>
+            <li class="partner"><span class="partner__mark partner__mark--green">家</span><span class="partner__name">中国家庭教育学会<br /><small>China Family Education Society</small></span></li>
+            <li class="partner"><span class="partner__mark partner__mark--gold">声</span><span class="partner__name">中国教育之声<br /><small>教育之声</small></span></li>
+            <li class="partner"><span class="partner__mark partner__mark--jx">江</span><span class="partner__name">江西省家庭教育学会</span></li>
+            <li class="partner"><span class="partner__mark partner__mark--red">档</span><span class="partner__name">中宏网 品牌档案<br /><small>国家经济视窗 · BRAND ARCHIVES</small></span></li>
+            <li class="partner"><span class="partner__mark partner__mark--river">江</span><span class="partner__name">大江网<br /><small>www.jxnews.com.cn</small></span></li>
+            <li class="partner"><span class="partner__mark partner__mark--netease">教</span><span class="partner__name">网易新闻 · 教育</span></li>
+            <li class="partner"><span class="partner__mark partner__mark--tv">视</span><span class="partner__name">江西教育电视台<br /><small>只教育 · 好未来</small></span></li>
+            <li class="partner"><span class="partner__mark partner__mark--sina">浪</span><span class="partner__name">sina 新浪</span></li>
+            <li class="partner"><span class="partner__mark partner__mark--ifeng">凤</span><span class="partner__name">凤凰网<br /><small>IFENG.COM</small></span></li>
+            <li class="partner"><span class="partner__mark partner__mark--qq">讯</span><span class="partner__name">腾讯网<br /><small>QQ.COM</small></span></li>
+            <li class="partner"><span class="partner__mark partner__mark--sohu">狐</span><span class="partner__name">搜狐<br /><small>SOHU.com</small></span></li>
+            <li class="partner"><span class="partner__mark partner__mark--school">店</span><span class="partner__name">南昌市三店小学</span></li>
+            <li class="partner"><span class="partner__mark partner__mark--school">溪</span><span class="partner__name">南昌溪头小学</span></li>
+            <li class="partner"><span class="partner__mark partner__mark--school">附</span><span class="partner__name">南昌大学附属小学<br /><small>Primary School Affiliated To NCU</small></span></li>
+            <li class="partner"><span class="partner__mark partner__mark--school">洪</span><span class="partner__name">南昌市洪都中学<br /><small>www.nchdzx.com</small></span></li>
+            <li class="partner"><span class="partner__mark partner__mark--red">二</span><span class="partner__name">南昌二中</span></li>
+            <li class="partner"><span class="partner__mark partner__mark--gold">义</span><span class="partner__name">南昌慈善义工协会</span></li>
+            <li class="partner"><span class="partner__mark partner__mark--seal">钢</span><span class="partner__name">包钢第一中学<br /><small>Bao Gang No.1 High School</small></span></li>
+          </ul>
+        </section>
+
+        <!-- 留资：合作平台之后、页脚之前 -->
+        <section class="home-lead" id="lead">
+          <div class="home-lead__card" id="home-lead">
+            <div class="home-lead__aura" aria-hidden="true"></div>
+            <header class="home-lead__head">
+              <p class="home-lead__eyebrow">选填 · 不打扰</p>
+              <h2 class="home-lead__title">如果方便，想多了解你一点</h2>
+              <p class="home-lead__consent">
+                完全自愿。留下兴趣或手机后，客服只会就课程方向轻声跟进，不会用于诊断，也不会反复打扰。提交即表示你愿意被联系。
+              </p>
+            </header>
+            <div class="home-lead__body">
+              <div class="home-lead__grid">
+                <div>
+                  <div class="home-lead__name">
+                    <label class="home-lead__label" for="home-lead-surname">怎么称呼你？<span>选填姓氏</span></label>
+                    <input
+                      id="home-lead-surname"
+                      class="home-lead__surname"
+                      type="text"
+                      maxlength="8"
+                      autocomplete="family-name"
+                      placeholder="姓氏，如 王"
+                    />
+                  </div>
+                  <p class="home-lead__label">称呼<span>选一个就好</span></p>
+                  <div class="home-lead__chips" id="home-lead-titles" role="radiogroup" aria-label="如何称呼">
+                    <button type="button" class="home-lead__chip" data-title="先生" aria-pressed="false">
+                      <span class="home-lead__chip-mark" aria-hidden="true"></span><span>先生</span>
+                    </button>
+                    <button type="button" class="home-lead__chip" data-title="女士" aria-pressed="false">
+                      <span class="home-lead__chip-mark" aria-hidden="true"></span><span>女士</span>
+                    </button>
+                    <button type="button" class="home-lead__chip" data-title="家长" aria-pressed="false">
+                      <span class="home-lead__chip-mark" aria-hidden="true"></span><span>家长</span>
+                    </button>
+                  </div>
+                  <p class="home-lead__label">哪方面你更想了解？<span>方向或其他，只能选一个</span></p>
+                  <div class="home-lead__chips" id="home-lead-chips" role="radiogroup" aria-label="兴趣方向">
+                    <button type="button" class="home-lead__chip" data-tag="亲子沟通" aria-pressed="false">
+                      <span class="home-lead__chip-mark" aria-hidden="true"></span><span>亲子沟通</span>
+                    </button>
+                    <button type="button" class="home-lead__chip" data-tag="情绪管理" aria-pressed="false">
+                      <span class="home-lead__chip-mark" aria-hidden="true"></span><span>情绪管理</span>
+                    </button>
+                    <button type="button" class="home-lead__chip" data-tag="伴侣关系" aria-pressed="false">
+                      <span class="home-lead__chip-mark" aria-hidden="true"></span><span>伴侣关系</span>
+                    </button>
+                    <button type="button" class="home-lead__chip" data-tag="其他" aria-pressed="false">
+                      <span class="home-lead__chip-mark" aria-hidden="true"></span><span>其他</span>
+                    </button>
+                  </div>
+                  <div class="home-lead__other" id="home-lead-other" aria-hidden="true">
+                    <div class="home-lead__other-inner">
+                      <label class="home-lead__label" for="home-lead-other-text">其他方向</label>
+                      <textarea
+                        id="home-lead-other-text"
+                        class="home-lead__textarea"
+                        rows="3"
+                        placeholder="也可以写写你关心的课程或方向"
+                        maxlength="200"
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div class="home-lead__phone">
+                    <label for="home-lead-phone">方便的话，留个手机号<span>可改</span></label>
+                    <div class="home-lead__phone-field">
+                      <span class="home-lead__phone-prefix" aria-hidden="true">+86</span>
+                      <input
+                        id="home-lead-phone"
+                        type="tel"
+                        inputmode="numeric"
+                        autocomplete="tel"
+                        maxlength="11"
+                        placeholder="手机号"
+                      />
+                    </div>
+                  </div>
+                  <p class="home-lead__error" id="home-lead-error" hidden></p>
+                  <button type="button" class="home-lead__submit" id="home-lead-submit">提交给我</button>
+                  <p class="home-lead__footnote">不想填也完全没问题</p>
+                </div>
+              </div>
+            </div>
+            <p class="home-lead__thanks" id="home-lead-thanks" hidden>已收到你的留言，谢谢你的信任</p>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <p>联系我们：4000-020-286</p>
+        <p>企业主体：广州六维教育信息咨询有限公司</p>
+        <p class="site-footer__note">
+          本页为官网首页静态复刻原型（对照 6qedu.com），仅用于演示留资插入位置；非线上正式站。
+        </p>
+      </footer>
+    </div>
+
+    <aside class="proto-note">
+      <strong>原型注释</strong>
+      <ul>
+        <li>对照源：https://www.6qedu.com/（截图见 docs/refs/6qedu-home-full.png）</li>
+        <li>合作平台：核心课程之后；留资在合作平台之后、页脚之前</li>
+        <li>口径同 H5-v1.0.4：自愿、至少一项、其他必填说明、本地 journey_lead_home_v1</li>
+      </ul>
+    </aside>
+
+    <script src="home-lead.js"></script>
+  </body>
+</html>

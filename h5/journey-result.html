@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../css/app.css" />
     <link rel="stylesheet" href="../css/xinhua.css" />
     <link rel="stylesheet" href="../css/journey.css" />
+    <link rel="stylesheet" href="css/h5-journey.css" />
   </head>
   <body class="app-body">
     <div class="ios-device">
@@ -63,6 +64,106 @@
                   以上内容仅为探索性提示，不代表对您的性格、心理状态或家庭关系作出判断。如果部分内容与您不符，请以您的真实经历和感受为准。
                 </p>
               </section>
+
+              <!--
+                留资区（H5-v1.0.4 / F240–F246）
+                位置：四段解读之后、分享/去超级爸妈之前。
+                危机态（journeyRiskPayload.risk_flag）整块不渲染。
+                实现清单见 docs/FEATURES.md「H5-v1.0.4」与 h5/js/journey-result.js 文件头注释。
+              -->
+              <section class="jh-lead" id="jh-lead" hidden>
+                <div class="jh-lead__aura" aria-hidden="true"></div>
+                <header class="jh-lead__head">
+                  <p class="jh-lead__eyebrow">选填 · 不打扰</p>
+                  <h3 class="jh-lead__title">如果方便，想多了解你一点</h3>
+                  <p class="jh-lead__consent">
+                    完全自愿。留下兴趣或手机后，客服只会就课程方向轻声跟进，不会用于诊断，也不会反复打扰。提交即表示你愿意被联系。
+                  </p>
+                </header>
+                <div class="jh-lead__body">
+                  <div class="jh-lead__name">
+                    <label class="jh-lead__label" for="jh-lead-surname">怎么称呼你？<span>选填姓氏</span></label>
+                    <input
+                      id="jh-lead-surname"
+                      class="jh-lead__surname"
+                      type="text"
+                      maxlength="8"
+                      autocomplete="family-name"
+                      placeholder="姓氏，如 王"
+                    />
+                  </div>
+                  <p class="jh-lead__label">称呼<span>选一个就好</span></p>
+                  <div class="jh-lead__chips" id="jh-lead-titles" role="radiogroup" aria-label="如何称呼">
+                    <button type="button" class="jh-lead__chip" data-title="先生" aria-pressed="false">
+                      <span class="jh-lead__chip-mark" aria-hidden="true"></span>
+                      <span>先生</span>
+                    </button>
+                    <button type="button" class="jh-lead__chip" data-title="女士" aria-pressed="false">
+                      <span class="jh-lead__chip-mark" aria-hidden="true"></span>
+                      <span>女士</span>
+                    </button>
+                    <button type="button" class="jh-lead__chip" data-title="家长" aria-pressed="false">
+                      <span class="jh-lead__chip-mark" aria-hidden="true"></span>
+                      <span>家长</span>
+                    </button>
+                  </div>
+                  <p class="jh-lead__label">哪方面你更想了解？<span>方向或其他，只能选一个</span></p>
+                  <div class="jh-lead__chips" id="jh-lead-chips" role="radiogroup" aria-label="兴趣方向">
+                    <button type="button" class="jh-lead__chip" data-tag="亲子沟通" aria-pressed="false">
+                      <span class="jh-lead__chip-mark" aria-hidden="true"></span>
+                      <span>亲子沟通</span>
+                    </button>
+                    <button type="button" class="jh-lead__chip" data-tag="情绪管理" aria-pressed="false">
+                      <span class="jh-lead__chip-mark" aria-hidden="true"></span>
+                      <span>情绪管理</span>
+                    </button>
+                    <button type="button" class="jh-lead__chip" data-tag="伴侣关系" aria-pressed="false">
+                      <span class="jh-lead__chip-mark" aria-hidden="true"></span>
+                      <span>伴侣关系</span>
+                    </button>
+                    <button type="button" class="jh-lead__chip" data-tag="其他" aria-pressed="false">
+                      <span class="jh-lead__chip-mark" aria-hidden="true"></span>
+                      <span>其他</span>
+                    </button>
+                  </div>
+                  <div class="jh-lead__other" id="jh-lead-other" aria-hidden="true">
+                    <div class="jh-lead__other-inner">
+                      <label class="jh-lead__label" for="jh-lead-other-text">其他方向</label>
+                      <textarea
+                        id="jh-lead-other-text"
+                        class="jh-lead__textarea"
+                        rows="3"
+                        placeholder="也可以写写你关心的课程或方向"
+                        maxlength="200"
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div class="jh-lead__phone">
+                    <label for="jh-lead-phone">方便的话，留个手机号<span>可改</span></label>
+                    <div class="jh-lead__phone-field">
+                      <span class="jh-lead__phone-prefix" aria-hidden="true">+86</span>
+                      <input
+                        id="jh-lead-phone"
+                        type="tel"
+                        inputmode="numeric"
+                        autocomplete="tel"
+                        maxlength="11"
+                        placeholder="手机号"
+                      />
+                    </div>
+                  </div>
+                  <p class="jh-lead__error" id="jh-lead-error" hidden></p>
+                  <button type="button" class="jh-lead__submit" id="jh-lead-submit">提交给我</button>
+                  <p class="jh-lead__footnote">不想填也完全没问题，下面仍可分享或继续浏览</p>
+                </div>
+                <p class="jh-lead__thanks" id="jh-lead-thanks" hidden>已收到你的留言，谢谢你的信任</p>
+              </section>
+
+              <p class="jh-lead-demo-wrap">
+                <button type="button" class="jh-h5-type-toggle" id="jh-lead-demo-crisis">
+                  演示：危机态（隐藏留资）
+                </button>
+              </p>
 
               <div class="xh-footer" style="display:flex;gap:10px;flex-wrap:wrap">
                 <button type="button" class="xh-btn" id="h5-share">分享转发</button>
