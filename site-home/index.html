@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>6Q教育｜官网首页复刻（含留资）</title>
+    <title>6Q教育：专注家庭教育与情商教育</title>
     <link rel="stylesheet" href="home.css" />
     <!--
       原型说明（对照 https://www.6qedu.com/）
@@ -74,8 +74,8 @@
           <h2 class="section-title"><span aria-hidden="true">❝</span>企业荣誉<span aria-hidden="true">❞</span></h2>
           <div class="honors__row">
             <div class="honors__media">
-              <div class="honors__video" aria-label="荣誉视频占位">
-                <span>▶ 荣誉短片（原型占位）</span>
+              <div class="honors__video" aria-label="荣誉视频">
+                <span>▶</span>
               </div>
               <a class="honors__btn" href="#">查看所有荣誉 →</a>
             </div>
@@ -155,7 +155,6 @@
           <div class="home-lead__card" id="home-lead">
             <div class="home-lead__aura" aria-hidden="true"></div>
             <header class="home-lead__head">
-              <p class="home-lead__eyebrow">选填 · 不打扰</p>
               <h2 class="home-lead__title">如果方便，想多了解你一点</h2>
               <p class="home-lead__consent">
                 完全自愿。留下兴趣或手机后，客服只会就课程方向轻声跟进，不会用于诊断，也不会反复打扰。提交即表示你愿意被联系。
@@ -165,7 +164,7 @@
               <div class="home-lead__grid">
                 <div>
                   <div class="home-lead__name">
-                    <label class="home-lead__label" for="home-lead-surname">怎么称呼你？<span>选填姓氏</span></label>
+                    <label class="home-lead__label" for="home-lead-surname">怎么称呼你？</label>
                     <input
                       id="home-lead-surname"
                       class="home-lead__surname"
@@ -175,7 +174,7 @@
                       placeholder="姓氏，如 王"
                     />
                   </div>
-                  <p class="home-lead__label">称呼<span>选一个就好</span></p>
+                  <p class="home-lead__label">称呼</p>
                   <div class="home-lead__chips" id="home-lead-titles" role="radiogroup" aria-label="如何称呼">
                     <button type="button" class="home-lead__chip" data-title="先生" aria-pressed="false">
                       <span class="home-lead__chip-mark" aria-hidden="true"></span><span>先生</span>
@@ -184,7 +183,7 @@
                       <span class="home-lead__chip-mark" aria-hidden="true"></span><span>女士</span>
                     </button>
                   </div>
-                  <p class="home-lead__label">哪方面你更想了解？<span>方向或其他，只能选一个</span></p>
+                  <p class="home-lead__label">哪方面你更想了解？</p>
                   <div class="home-lead__chips" id="home-lead-chips" role="radiogroup" aria-label="兴趣方向">
                     <button type="button" class="home-lead__chip" data-tag="亲子沟通" aria-pressed="false">
                       <span class="home-lead__chip-mark" aria-hidden="true"></span><span>亲子沟通</span>
@@ -214,7 +213,7 @@
                 </div>
                 <div>
                   <div class="home-lead__phone">
-                    <label for="home-lead-phone">方便的话，留个手机号<span>可改</span></label>
+                    <label for="home-lead-phone">方便的话，留个手机号</label>
                     <div class="home-lead__phone-field">
                       <span class="home-lead__phone-prefix" aria-hidden="true">+86</span>
                       <input
@@ -229,7 +228,7 @@
                   </div>
                   <p class="home-lead__error" id="home-lead-error" hidden></p>
                   <button type="button" class="home-lead__submit" id="home-lead-submit">提交给我</button>
-                  <p class="home-lead__footnote">不想填也完全没问题</p>
+                  <p class="home-lead__footnote">姓氏和方向都可以先不填</p>
                 </div>
               </div>
             </div>
@@ -241,20 +240,8 @@
       <footer class="site-footer">
         <p>联系我们：4000-020-286</p>
         <p>企业主体：广州六维教育信息咨询有限公司</p>
-        <p class="site-footer__note">
-          本页为官网首页静态复刻原型（对照 6qedu.com），仅用于演示留资插入位置；非线上正式站。
-        </p>
       </footer>
     </div>
-
-    <aside class="proto-note">
-      <strong>原型注释</strong>
-      <ul>
-        <li>对照源：https://www.6qedu.com/（截图见 docs/refs/6qedu-home-full.png）</li>
-        <li>合作平台：核心课程之后；留资在合作平台之后、页脚之前</li>
-        <li>口径同 H5-v1.0.4：手机必填；称呼/方向默认第一项；其他必填说明；本地 journey_lead_home_v1</li>
-      </ul>
-    </aside>
 
     <script src="home-lead.js"></script>
   </body>

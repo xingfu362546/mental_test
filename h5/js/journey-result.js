@@ -53,7 +53,7 @@
             "我和孩子走在前面，伴侣在侧后方，向导举着旗。路边有营地和一条往前的小路，天气很晴。",
           imageUrl: "../assets/journey/journey-compose-demo.png",
           description:
-            "画面里四位旅伴沿小路前行：你和孩子靠得较近，伴侣略在侧后，向导在前方举旗。营地在路旁，整体光线明亮。此为演示编造的旅程描述。",
+            "画面里四位旅伴沿小路前行：你和孩子靠得较近，伴侣略在侧后，向导在前方举旗。营地在路旁，整体光线明亮。",
           patternId: "j04",
         })
       );
@@ -163,7 +163,6 @@
   const phoneInput = document.getElementById("jh-lead-phone");
   const errEl = document.getElementById("jh-lead-error");
   const btnSubmit = document.getElementById("jh-lead-submit");
-  const btnDemoCrisis = document.getElementById("jh-lead-demo-crisis");
   const thanksEl = document.getElementById("jh-lead-thanks");
 
   function readRiskFlag() {
@@ -385,24 +384,6 @@
       writeLead(record);
       applyDone(record);
       SixQDevice.toast("收到了，谢谢。客服会在合适的时候联系你", 2200);
-    });
-  }
-
-  if (btnDemoCrisis) {
-    btnDemoCrisis.addEventListener("click", function () {
-      try {
-        sessionStorage.setItem(
-          "journeyRiskPayload",
-          JSON.stringify({
-            risk_flag: true,
-            stop_general_analysis: true,
-            risk_categories: ["demo"],
-            tip_body: "演示危机态：结果页应隐藏留资区",
-          })
-        );
-      } catch (e) {}
-      hideLead();
-      SixQDevice.toast("已模拟危机态，留资已隐藏");
     });
   }
 
