@@ -1,4 +1,19 @@
 (function () {
+  const entrySwitch = document.getElementById("entry-switch");
+  if (entrySwitch && window.top !== window.self) {
+    entrySwitch.hidden = true;
+    document.documentElement.classList.add("in-frame");
+  }
+
+  const navToggle = document.getElementById("nav-toggle");
+  const siteNav = document.getElementById("site-nav");
+  if (navToggle && siteNav) {
+    navToggle.addEventListener("click", function () {
+      const open = siteNav.classList.toggle("is-open");
+      navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  }
+
   const grid = document.getElementById("course-grid");
   const search = document.getElementById("course-search");
   const sort = document.getElementById("course-sort");
@@ -35,6 +50,15 @@
       filters.forEach(function (el) { el.checked = false; });
       if (search) search.value = "";
       apply();
+    });
+  }
+
+  const filterToggle = document.getElementById("filter-toggle");
+  const side = document.getElementById("courses-side");
+  if (filterToggle && side) {
+    filterToggle.addEventListener("click", function () {
+      const open = side.classList.toggle("is-open");
+      filterToggle.setAttribute("aria-expanded", open ? "true" : "false");
     });
   }
 })();

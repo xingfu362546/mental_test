@@ -6,15 +6,25 @@
     <title>6Q课程：青少年领袖营_亲子教育课程_情商训练</title>
     <link rel="stylesheet" href="home.css" />
     <link rel="stylesheet" href="courses.css" />
+    <script>
+      if (window.top !== window.self) document.documentElement.classList.add("in-frame");
+    </script>
   </head>
   <body>
+    <p class="entry-switch" id="entry-switch">
+      <span class="entry-switch__current">桌面课程页</span>
+      <a href="courses-ios.html">iOS 课程页</a>
+    </p>
     <div class="page-shell">
       <header class="site-header">
         <a class="brand" href="index.html">
           <span class="brand__mark" aria-hidden="true"></span>
           <span class="brand__text">6Q教育</span>
         </a>
-        <nav class="site-nav" aria-label="主导航">
+        <button type="button" class="nav-toggle" id="nav-toggle" aria-label="打开菜单" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+        <nav class="site-nav" id="site-nav" aria-label="主导航">
           <a href="index.html">首页</a>
           <a href="#">关于6Q</a>
           <a class="is-current" href="courses.html">6Q课程</a>
@@ -31,7 +41,13 @@
         <h1 class="courses-page__title">6Q课程</h1>
 
         <div class="courses-layout">
-          <aside class="courses-side">
+          <div class="courses-mobile-bar">
+            <p class="courses-mobile-label">6Q课程</p>
+            <button type="button" class="courses-filter-btn" id="filter-toggle" aria-expanded="false" aria-controls="courses-side">
+              筛选
+            </button>
+          </div>
+          <aside class="courses-side" id="courses-side">
             <label class="courses-search">
               <span aria-hidden="true">⌕</span>
               <input id="course-search" type="search" placeholder="Search" />
@@ -117,9 +133,9 @@
           <div class="home-lead__card" id="home-lead" data-lead-key="journey_lead_courses_v1" data-lead-source="6qedu-courses">
             <div class="home-lead__aura" aria-hidden="true"></div>
             <header class="home-lead__head">
-              <h2 class="home-lead__title">如果方便，想多了解你一点</h2>
+              <h2 class="home-lead__title">留下联系方式，专业老师为您服务</h2>
               <p class="home-lead__consent">
-                完全自愿。留下兴趣或手机后，客服只会就课程方向轻声跟进，不会用于诊断，也不会反复打扰。提交即表示你愿意被联系。
+                如果您对课程感兴趣，欢迎留下联系方式。我们会安排专业老师在您方便的时候与您联系，提供一对一的课程咨询与服务。
               </p>
             </header>
             <div class="home-lead__body">
@@ -157,7 +173,10 @@
                     </div>
                   </div>
                   <p class="home-lead__error" id="home-lead-error" hidden></p>
-                  <button type="button" class="home-lead__submit" id="home-lead-submit">提交给我</button>
+                  <button type="button" class="home-lead__submit" id="home-lead-submit">
+                    <span class="home-lead__submit-main">提交</span>
+                    <span class="home-lead__submit-sub">预约老师服务</span>
+                  </button>
                 </div>
               </div>
             </div>

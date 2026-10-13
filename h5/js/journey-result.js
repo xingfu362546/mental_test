@@ -272,7 +272,10 @@
       phoneInput.readOnly = true;
     }
     if (otherInput) otherInput.readOnly = true;
-    btnSubmit.textContent = "已收到，谢谢你";
+    const main = btnSubmit.querySelector(".jh-lead__submit-main");
+    const sub = btnSubmit.querySelector(".jh-lead__submit-sub");
+    if (main) main.textContent = "已收到，谢谢你";
+    if (sub) sub.hidden = true;
     btnSubmit.disabled = true;
     if (thanksEl) thanksEl.hidden = false;
     showError("");
@@ -302,7 +305,10 @@
     }
     if (surnameInput) surnameInput.readOnly = false;
     if (otherInput) otherInput.readOnly = false;
-    btnSubmit.textContent = "提交给我";
+    const main = btnSubmit.querySelector(".jh-lead__submit-main");
+    const sub = btnSubmit.querySelector(".jh-lead__submit-sub");
+    if (main) main.textContent = "提交";
+    if (sub) sub.hidden = false;
     btnSubmit.disabled = false;
     if (thanksEl) thanksEl.hidden = true;
   }

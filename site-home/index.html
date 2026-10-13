@@ -19,7 +19,10 @@
           <span class="brand__mark" aria-hidden="true"></span>
           <span class="brand__text">6Q教育</span>
         </a>
-        <nav class="site-nav" aria-label="主导航">
+        <button type="button" class="nav-toggle" id="nav-toggle" aria-label="打开菜单" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+        <nav class="site-nav" id="site-nav" aria-label="主导航">
           <a class="is-current" href="index.html">首页</a>
           <a href="#">关于6Q</a>
           <a href="courses.html">6Q课程</a>
@@ -155,9 +158,9 @@
           <div class="home-lead__card" id="home-lead" data-lead-key="journey_lead_home_v1">
             <div class="home-lead__aura" aria-hidden="true"></div>
             <header class="home-lead__head">
-              <h2 class="home-lead__title">如果方便，想多了解你一点</h2>
+              <h2 class="home-lead__title">留下联系方式，专业老师为您服务</h2>
               <p class="home-lead__consent">
-                完全自愿。留下兴趣或手机后，客服只会就课程方向轻声跟进，不会用于诊断，也不会反复打扰。提交即表示你愿意被联系。
+                如果您对课程感兴趣，欢迎留下联系方式。我们会安排专业老师在您方便的时候与您联系，提供一对一的课程咨询与服务。
               </p>
             </header>
             <div class="home-lead__body">
@@ -227,7 +230,10 @@
                     </div>
                   </div>
                   <p class="home-lead__error" id="home-lead-error" hidden></p>
-                  <button type="button" class="home-lead__submit" id="home-lead-submit">提交给我</button>
+                  <button type="button" class="home-lead__submit" id="home-lead-submit">
+                    <span class="home-lead__submit-main">提交</span>
+                    <span class="home-lead__submit-sub">预约老师服务</span>
+                  </button>
                 </div>
               </div>
             </div>
@@ -242,6 +248,7 @@
       </footer>
     </div>
 
+    <script src="courses.js"></script>
     <script src="home-lead.js"></script>
   </body>
 </html>
