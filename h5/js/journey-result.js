@@ -25,7 +25,6 @@
  * [ ] F246 再进结果页恢复已提交态；footer CTA 仍可点；不写 patternId/frontTheme
  */
 (function () {
-  const DEMO_QUERY = "demo=1";
   const isDemo = /(?:^|[?&])demo=1(?:&|$)/.test(location.search);
 
   /**

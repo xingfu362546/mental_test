@@ -128,8 +128,19 @@
     showError("");
   }
 
+  function selectFirst(wrap) {
+    if (!wrap) return;
+    const chips = wrap.querySelectorAll(".home-lead__chip");
+    if (!chips.length) return;
+    if (wrap.querySelector(".home-lead__chip.is-on")) return;
+    selectOnly(wrap, chips[0]);
+  }
+
   function applyIdle() {
     root.classList.remove("is-done");
+    selectFirst(titleWrap);
+    selectFirst(chipWrap);
+    syncOtherVisibility();
     if (surnameInput) surnameInput.readOnly = false;
     if (otherInput) otherInput.readOnly = false;
     if (phoneInput) phoneInput.readOnly = false;
@@ -168,16 +179,16 @@
     const otherText = String((otherInput && otherInput.value) || "").trim();
     const phone = String((phoneInput && phoneInput.value) || "").replace(/\D/g, "");
 
-    if (!interests.length && !phone) {
-      showError("兴趣或手机留一项就好；现在也可以先跳过");
+    if (!phone) {
+      showError("方便的话，请留下手机号，我们才能联系你");
+      return;
+    }
+    if (!/^1\d{10}$/.test(phone)) {
+      showError("手机号好像不太对，麻烦再看一眼");
       return;
     }
     if (interests.indexOf("其他") >= 0 && !otherText) {
       showError("选了「其他」的话，麻烦写一句你关心的方向");
-      return;
-    }
-    if (phone && !/^1\d{10}$/.test(phone)) {
-      showError("手机号好像不太对，麻烦再看一眼");
       return;
     }
 
