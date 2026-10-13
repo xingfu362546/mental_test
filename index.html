@@ -245,25 +245,27 @@ flowchart LR
         <div class="ver-card__head">
           <div>
             <h2><span class="ver-badge">H5-v1.0.4</span> 心画测评H5版本（当前）</h2>
-            <p class="ver-card__meta">2026-10-12 · 结果页自愿留资</p>
+            <p class="ver-card__meta">2026-10-13 · 本版只说明留资</p>
           </div>
-          <p class="ver-card__theme">自愿兴趣+手机 · 诚恳文案 · 危机隐藏 · 本地已提交</p>
+          <p class="ver-card__theme">结果页留资 · 官网留资 · 直达解读</p>
         </div>
         <div class="ver-mod">
           <div class="ver-mod__head">
-            <h3>模块 · 结果页留资（本迭代）</h3>
-            <a href="h5/journey-result.html">打开结果页 →</a>
+            <h3>模块 · 留资</h3>
+            <span>
+              <a href="h5/journey-result.html?demo=1">打开心画解读结果 →</a>
+              ·
+              <a href="site-home/index.html">打开官网首页 →</a>
+            </span>
           </div>
           <p class="ver-card__meta" style="margin:0 0 10px">
-            <strong>调整说明：</strong>四段解读后增加自愿留资；危机态隐藏；成功本地落库锁定。验收清单见 <code>docs/FEATURES.md</code> H5-v1.0.4 与 <code>h5/js/journey-result.js</code> 文件头注释。
+            <strong>本版范围：</strong>只交付留资。心画入口直接进入已生成的解读页（中间步骤用演示数据跳过）；官网为对照首页并插入同一套留资。
           </p>
           <ul>
-            <li><strong>位置</strong>：解读 → 留资 → 分享 / 去6Q超级爸妈</li>
-            <li><strong>字段</strong>：姓氏选填 + 称呼单选（先生/女士/家长）+ 方向单选（含「其他」必填说明）+ 手机（可预填可改）；至少方向或手机一项</li>
-            <li><strong>文案</strong>：诚恳选填；用途说明；提交即同意联系；成功致谢</li>
-            <li><strong>危机</strong>：<code>risk_flag</code> 为真时隐藏；可用「演示：危机态」验收</li>
-            <li><strong>数据</strong>：<code>journey_lead_v1</code> 仅兴趣+手机，不绑测评上下文</li>
-            <li><strong>官网复刻</strong>：对照 6qedu.com 首页插入同口径留资 → <a href="site-home/index.html">site-home/index.html</a></li>
+            <li><strong>心画结果</strong>：解读全文之后、分享 / 去超级爸妈之前。姓氏选填；称呼单选先生/女士（默认先生）；方向单选且默认「亲子沟通」，选「其他」须填写；手机必填。</li>
+            <li><strong>官网</strong>：合作平台之后、页脚之前，字段与校验与心画结果相同。</li>
+            <li><strong>提交</strong>：成功后提示已收到并锁定，不可再改。不随单保存测评主题或结果类型。</li>
+            <li><strong>危机</strong>：心画结果若为危机态，不展示留资。</li>
           </ul>
         </div>
       </article>

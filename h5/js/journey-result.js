@@ -10,8 +10,8 @@
  *    正式对接 onShareAppMessage / open-type=share，返回 { title, path, imageUrl }；
  *    本 H5 原型仅 toast 占位，不走系统分享链接。
  * 4) 留资（H5-v1.0.4）：非危机完整解读后、分享/CTA 前；自愿选填+提交；
- *    方向单选「亲子沟通/情绪管理/伴侣关系/其他」；称呼单选「先生/女士/家长」；勾「其他」必填自由文；
- *    手机手填，可预填授权号可改；至少手机或兴趣一项；
+ *    方向单选「亲子沟通/情绪管理/伴侣关系/其他」，默认第一项；称呼单选「先生/女士」，默认先生；勾「其他」必填自由文；
+ *    手机必填，可预填授权号可改；未填手机不可提交；
  *    用途一句+提交即同意联系；成功 toast + localStorage +「已收到」锁定；
  *    危机态（journeyRiskPayload.risk_flag）整块隐藏；随单仅兴趣+手机，不绑测评上下文。
  *
@@ -19,13 +19,52 @@
  * [ ] F240 区块位置：解读区之后、分享/去超级爸妈之前
  * [ ] F241 危机态：risk_flag=true 时 #jh-lead 不展示（演示按钮可验）
  * [ ] F242 方向单选 +「其他」展开；称呼单选；placeholder 为关心的课程/方向；勾其他未填不可提
- * [ ] F243 手机可预填 session.phoneE164、可改；填了须 11 位 1 开头
- * [ ] F244 全空不可提；只兴趣或只手机均可提
+ * [ ] F243 手机必填，可预填 session.phoneE164、可改；须 11 位 1 开头
+ * [ ] F244 未填手机不可提；方向/称呼默认选中第一项
  * [ ] F245 成功 toast + localStorage(journey_lead_v1) + 按钮「已收到，谢谢你」只读
  * [ ] F246 再进结果页恢复已提交态；footer CTA 仍可点；不写 patternId/frontTheme
  */
 (function () {
-  const session = window.H5Auth && window.H5Auth.requireLogin("login.html");
+  const DEMO_QUERY = "demo=1";
+  const isDemo = /(?:^|[?&])demo=1(?:&|$)/.test(location.search);
+
+  /**
+   * 版本清单直达：写入模拟会话与旅程数据，跳过授权/引导/成图。
+   * 仅 ?demo=1 时生效，正式扫码入口不受影响。
+   */
+  function seedDemo() {
+    const phone = "13800138000";
+    const session = {
+      authorized: true,
+      userId: "phone_" + phone,
+      phoneE164: phone,
+      phoneMasked: "138****8000",
+      phoneSource: "wechat",
+      loginAt: new Date().toISOString(),
+    };
+    try {
+      sessionStorage.setItem("xinhua_h5_session", JSON.stringify(session));
+      sessionStorage.removeItem("journeyRiskPayload");
+      sessionStorage.setItem(
+        "journeyPayload",
+        JSON.stringify({
+          figures: ["向导", "孩子", "伴侣", "自己"],
+          extras: ["营地", "小路"],
+          userText:
+            "我和孩子走在前面，伴侣在侧后方，向导举着旗。路边有营地和一条往前的小路，天气很晴。",
+          imageUrl: "../assets/journey/journey-compose-demo.png",
+          description:
+            "画面里四位旅伴沿小路前行：你和孩子靠得较近，伴侣略在侧后，向导在前方举旗。营地在路旁，整体光线明亮。此为演示编造的旅程描述。",
+          patternId: "j04",
+        })
+      );
+    } catch (e) {}
+    return session;
+  }
+
+  const session = isDemo
+    ? seedDemo()
+    : window.H5Auth && window.H5Auth.requireLogin("login.html");
   if (!session) return;
 
   const patterns = window.JourneyPatterns || [];
@@ -241,10 +280,22 @@
     showError("");
   }
 
+  function selectFirst(wrap) {
+    if (!wrap) return;
+    const chips = wrap.querySelectorAll(".jh-lead__chip");
+    if (!chips.length) return;
+    const already = wrap.querySelector(".jh-lead__chip.is-on");
+    if (already) return;
+    selectOnly(wrap, chips[0]);
+  }
+
   function applyIdle() {
     if (!leadRoot || !btnSubmit) return;
     leadRoot.classList.remove("is-done");
     leadRoot.hidden = false;
+    selectFirst(titleWrap);
+    selectFirst(chipWrap);
+    syncOtherVisibility();
     if (phoneInput) {
       phoneInput.readOnly = false;
       if (!phoneInput.value && session.phoneE164) {
@@ -310,16 +361,16 @@
       const otherText = otherInput ? String(otherInput.value || "").trim() : "";
       const phone = phoneInput ? String(phoneInput.value || "").replace(/\D/g, "") : "";
 
-      if (!interests.length && !phone) {
-        showError("兴趣或手机留一项就好；现在也可以先跳过");
+      if (!phone) {
+        showError("方便的话，请留下手机号，我们才能联系你");
+        return;
+      }
+      if (!/^1\d{10}$/.test(phone)) {
+        showError("手机号好像不太对，麻烦再看一眼");
         return;
       }
       if (interests.indexOf("其他") >= 0 && !otherText) {
         showError("选了「其他」的话，麻烦写一句你关心的方向");
-        return;
-      }
-      if (phone && !/^1\d{10}$/.test(phone)) {
-        showError("手机号好像不太对，麻烦再看一眼");
         return;
       }
 
